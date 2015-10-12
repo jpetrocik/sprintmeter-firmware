@@ -1,0 +1,13 @@
+Part    Value            Device               Package                Description                                                                                                                 
+BATTERY BATHOLDER-N-2470 BATHOLDER-N-2470     BATHOLDER-N-2470       Digi-Key Part Number                                                                                              KEY1123-ND
+C1      10uF             CAP_POL1206          EIA3216                Capacitor Polarized                                                                                                         
+C2      68uF             CAP_POL3528          EIA3528                Capacitor Polarized                                                                                                         
+D3      MBRA140          DIODESMA             SMA-DIODE              Diode                                                                                                                       
+L1      47uH             INDUCTORCR54         CR54                   Inductors                                                                                                                   
+Q1                       TRANSISTOR_NPNSOT23  SOT23                  Generic NPN BJT. MMBT2222 is the common NPN we use. 
+R4      1K               RESISTOR0805-RES     0805                   Resistor                                                                                                                    
+REED    M02              M02                  1X02-SMD_EDGE          Standard 2-pin 0.1" header. Use with                                                                                        
+U$1     24AAXXX          24AAXXX              SOIC-8-EIAJ                                                                                                                                        
+U$2     AVR_SPI_PROG3    AVR_SPI_PROG3        1X06-SMD_EDGE          SMD edge programer                                                                                                          
+U1      NCP1402          V_REG_NCP1400SOT23-5 SOT23-5                Switching step-up voltage regulator                                                                                         
+U2      ATMEGA168        ATMEGA168            TQFP32-08              Atmel 32-pin 8-bit micro, 16k flash.                                                                                        
