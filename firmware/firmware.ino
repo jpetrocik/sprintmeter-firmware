@@ -1,4 +1,4 @@
-
+#include <Wire.h>
 #include <avr/sleep.h>
 #include "sleep.h"
 
@@ -14,7 +14,7 @@
  */
 
 
-#define BOUNCE_DELAY 20
+#define BOUNCE_DELAY 10
 
 #define REED_SENSOR 3
 #define BT_ENABLE 7
