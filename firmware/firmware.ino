@@ -26,17 +26,9 @@
 #define SLEEP 1200000
 #define DATA_BUFFER 1500 //about 1000' of buffered data
 
-//current read set by interrupt
-volatile long triggeredTime;
+unsigned long previousTriggerTime = 0;
+volatile unsigned long triggeredTime = 0;
 volatile int triggered = false;
-
-long seqCheck = 0;
-//long data[DATA_BUFFER];
-//int dataStart = 0;   //set to 1 so first interrupt wont result in out of bounds error
-//int dataEnd = 0;  //set to 1 so first interrupt wont result in out of bounds error
-//int dataOverflow=0; //set when previous read hasn't been processed
-long lastRead = 0;
-
 
 void setup() {
   Serial.begin(115200);
@@ -73,36 +65,31 @@ void loop() {
 
   //check for new data
   if (triggered) {
-    int previousSplit = lastRead; //data[dataEnd%DATA_BUFFER];
-    int split = triggeredTime - previousSplit;
+    //calculate current split time
+    unsigned long split = triggeredTime - previousTriggerTime;
 
-    //save split time
-    //dataEnd++;
-    //data[dataEnd%DATA_BUFFER] = split;
-    lastRead = triggeredTime;
+    //save previous trigger time to calcuate split next trigger
+    previousTriggerTime = triggeredTime;
 
     if (btConnected) {
 
       //sends split and seqCheck
       //to ensure message wasn't lost
       Serial.print("BMX");
+      Serial.write(split >> 24);
+      Serial.write(split >> 16);
       Serial.write(split >> 8);
       Serial.write(split);
-      Serial.write(seqCheck >> 24);
-      Serial.write(seqCheck >> 16);
-      Serial.write(seqCheck >> 8);
-      Serial.write(seqCheck);
       Serial.write(13);
       Serial.write(10);
       
     }
     triggered = false;
-    seqCheck++;
   }
 
 #ifdef SLEEP_ENABLED
     //goto sleep after long delay
-    if (millis() - triggeredTime > SLEEP){
+    if (micros() - triggeredTime > SLEEP){
       digitalWrite(BT_ENABLE, LOW);
       digitalWrite(RED_LED, LOW);
   
@@ -129,19 +116,21 @@ void loop() {
    Triggered by magnet to record time
 */
 void sensorRead_isr() {
-  triggeredTime = millis();
+  triggeredTime = micros();
   triggered = true;
 }
 
 /*
-   Triggered by magnet when in sleep mode
+   Triggered by magnet to wake up when in sleep mode
 */
+#ifdef SLEEP_ENABLED
 void wake_isr()
 {
   sleep_disable();
   detachInterrupt(0);
-  triggeredTime = millis();
+  triggeredTime = micros();
 }
+#endif
 
 
 
