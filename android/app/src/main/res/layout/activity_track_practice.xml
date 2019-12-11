@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    android:orientation="vertical"
+    tools:context=".TrackPracticeActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Color1" >
+
+        <TextView
+            android:id="@+id/track_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+		/>
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/track_speedometer"
+        android:name="com.bmxgates.logger.SpeedometerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_speedometer" />
+
+    <TextView
+        android:id="@+id/track_sprint_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sub_bottom_border"
+        android:gravity="center"
+        android:text="Sprint #1"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/dstLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/sub_bottom_border"
+            android:paddingLeft="5dp"
+            android:text="Dst"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/timeView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/sub_left_bottom_border"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Time"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dstView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/sub_left_bottom_border"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Speed"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/splitsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/track_go_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/GREEN_LIGHT"
+        android:gravity="center"
+        android:text="Start"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/track_connect_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/LIGHT_GRAY"
+        android:gravity="center"
+        android:text="Connecting…"
+        android:textSize="25sp" />
+</LinearLayout>

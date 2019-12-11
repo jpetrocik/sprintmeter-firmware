@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SprintActivity" >
+
+    <fragment
+        android:id="@+id/sprint_speedometer"
+        android:name="com.bmxgates.logger.SpeedometerFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_speedometer" />
+
+    <fragment
+        android:id="@+id/sprint_speed_graph"
+        android:name="com.bmxgates.logger.SprintGraphFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/sprint_go_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/GREEN_LIGHT"
+            android:gravity="center"
+            android:text="Start"
+            android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/sprint_connect_button"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/LIGHT_GRAY"
+        android:gravity="center"
+        android:text="Connecting…"
+        android:textSize="25sp" />
+    
+</LinearLayout>

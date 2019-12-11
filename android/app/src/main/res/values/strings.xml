@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BMXLogger</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_track_list">Tracks</string>
+    <string name="title_track_detail">Track Detail</string>
+    <string name="title_activity_sprint">Sprints</string>
+    <string name="title_activity_box_sprint_acivity">Box Sprints</string>
+    <string name="title_activity_stop_watch">Stopwatch</string>
+	<string name="title_activity_track_practice">Track Sprints</string>
+</resources>

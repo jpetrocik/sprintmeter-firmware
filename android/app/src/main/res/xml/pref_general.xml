@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="auto_stop"
+        android:summary="Stop timer automatically at end of 1st straight"
+        android:title="Auto Stop Timer" />
+    <EditTextPreference android:title="Wheel Diameter" android:key="wheel_size"/>
+    <EditTextPreference android:title="Splits" android:key="splits"/>
+    <EditTextPreference android:title="Sprint Runup" android:key="runup"/>
+    <EditTextPreference android:title="Sprint Distance" android:key="sprint"/>
+    <EditTextPreference android:title="Box Sprint" android:key="box"/>
+    
+</PreferenceScreen>
