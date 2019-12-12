@@ -30,6 +30,11 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	long validateChecksum;
 
 	/**
+	 * The last time a message was received
+	 */
+	long lastMessageTime;
+
+	/**
 	 * Indicates a checksum error occured
 	 */
 	boolean checksumError= false;
@@ -110,7 +115,8 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 
 
 	protected boolean doHandleMessage(Message msg){
-		
+		lastMessageTime = System.currentTimeMillis();
+
 		/**
 		 * Due to the queuing of message, the stop button may be pressed before
 		 * all the messages have been processed. In that case sprintManager
@@ -124,7 +130,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		
 		return false;
 	}
-	
+
 	protected void onDatabaseOpened(){
 		sprintManager.setDatabase(application.getDatabase());
 	}

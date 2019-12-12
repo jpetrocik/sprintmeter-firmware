@@ -3,6 +3,8 @@ package com.bmxgates.logger;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,12 +42,20 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	int sprintIndex = 0;
 
+	Handler handler;
+
+	Runnable autoReadyChecker;
+
 	public TrackPracticeActivity() {
 		goButtonId = R.id.track_go_button;
 		connectButtonId = R.id.track_connect_button;
 		layoutId = R.layout.activity_track_practice;
 		
 		sprintManager = new SprintManager(Type.TRACK);
+
+		handler = new Handler(Looper.getMainLooper()) {
+
+		};
 	}
 	
 	@Override
@@ -93,6 +103,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 					readySprint();
 				} else {
 					stopSprint();
+					handler.removeCallbacks(autoReadyChecker);
 				}
 			}
 		});
@@ -102,11 +113,20 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		TrackLocator.obtainLocation(this, this);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// reload settings
+		autoStop = SettingsActivity.getAutoStop(this);
+		marks = SettingsActivity.getSplits(this);
+		wheelSize = SettingsActivity.getWheelSize(this);
+	}
+
 	protected void createSprintManager() {
 		if (application.getDatabase() != null) {
 			onDatabaseOpened();
 		}
-
 	}
 
 	@Override
@@ -170,11 +190,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	protected void readySprint() {
 		super.readySprint();
 		
-		// reload settings
-		autoStop = SettingsActivity.getAutoStop(this);
-		marks = SettingsActivity.getSplits(this);
-		wheelSize = SettingsActivity.getWheelSize(this);
-
 		if (track == null)
 			return;
 		
@@ -280,4 +295,21 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	}
 
+	public void enableAutoReady() {
+		autoReadyChecker = createAutoReadyChecker();
+		handler.postDelayed(autoReadyChecker, 1000);
+	}
+
+	Runnable createAutoReadyChecker() {
+		return new Runnable() {
+			public void run() {
+				if (System.currentTimeMillis() > (TrackPracticeActivity.this.lastMessageTime + 5000)) {
+					TrackPracticeActivity.this.stopSprint();
+					TrackPracticeActivity.this.readySprint();
+				}
+
+				enableAutoReady();
+			}
+		};
+	}
 }
