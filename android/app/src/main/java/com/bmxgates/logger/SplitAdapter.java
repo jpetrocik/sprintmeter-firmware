@@ -1,8 +1,5 @@
 package com.bmxgates.logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +9,14 @@ import android.widget.TextView;
 
 import com.bmxgates.logger.data.Sprint.Split;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SplitAdapter extends BaseAdapter {
 
 	private List<Split> splits = new ArrayList<Split>();
-	
+	private List<Split> bestSplits = new ArrayList<Split>();
+
 	private Context context;
 	
 	public SplitAdapter(Context context) {
@@ -26,8 +27,9 @@ public class SplitAdapter extends BaseAdapter {
 		return splits.size();
 	}
 
-	public void add(Split split){
+	public void add(Split split, Split bestSplit){
 		splits.add(split);
+		bestSplits.add(bestSplit);
 		notifyDataSetChanged();
 	}
 	
@@ -56,7 +58,7 @@ public class SplitAdapter extends BaseAdapter {
 
 			viewHolder = new ViewHolder();
 			newView.setTag(viewHolder);
-			viewHolder.speedView = (TextView) newView.findViewById(R.id.spdItemView);
+			viewHolder.diff = (TextView) newView.findViewById(R.id.diffItemView);
 			viewHolder.distance = (TextView) newView.findViewById(R.id.dstItemView);
 			viewHolder.time = (TextView) newView.findViewById(R.id.splitItemView);
 
@@ -66,7 +68,8 @@ public class SplitAdapter extends BaseAdapter {
 		}
 
 		Split split = getItem(position);
-		viewHolder.speedView.setText(Formater.speed(split.speed));
+		Split bestSplit = bestSplits.get(position);
+		viewHolder.diff.setText(Formater.time(  split.time - bestSplit.time, false));
 		viewHolder.distance.setText(Formater.distance(split.distance));
 		viewHolder.time.setText(Formater.time(split.time, true));
 
@@ -74,7 +77,7 @@ public class SplitAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		TextView speedView, distance, time;
+		TextView distance, time, diff;
 	}
 	
 

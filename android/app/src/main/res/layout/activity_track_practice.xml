@@ -70,7 +70,7 @@
             android:gravity="right"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:text="Speed"
+            android:text="Diff"
             android:textStyle="bold" />
 
     </LinearLayout>

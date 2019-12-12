@@ -77,8 +77,9 @@ public class Sprint {
 		//r=d/t
 		double speed =  (high.distance - low.distance) / (double)(high.time - low.time);
 		
-		//t=d/r
-		long time = (long) (distance/speed);
+		//estimated time
+		long  additionalDistance = distance - low.distance;
+		long time = low.time +(long)(additionalDistance/speed);
 
 		return new Split(distance, time, speed);
 	}
@@ -110,6 +111,10 @@ public class Sprint {
 			this.distance = distance;
 			this.time = time;
 			this.speed = speed;
+		}
+
+		public String toString(){
+			return distance + "/" + time;
 		}
 	}
 

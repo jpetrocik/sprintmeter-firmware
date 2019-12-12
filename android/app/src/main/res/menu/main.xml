@@ -5,7 +5,8 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Reconnect"/>
-    <item android:id="@+id/trackMenuItem" android:title="Tracks"></item><item android:id="@+id/settingsMenuItem" android:title="Settings"></item>
-    
+    <item android:id="@+id/trackMenuItem" android:title="Tracks"></item>
+    <item android:id="@+id/settingsMenuItem" android:title="Settings"></item>
+
 
 </menu>

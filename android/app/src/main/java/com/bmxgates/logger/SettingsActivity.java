@@ -1,7 +1,5 @@
 package com.bmxgates.logger;
 
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -12,6 +10,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+
+import java.util.List;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -26,9 +26,9 @@ import android.preference.PreferenceManager;
  */
 public class SettingsActivity extends PreferenceActivity {
 
-	public static String WHEEL_SIZE = "535";
+	public static String WHEEL_SIZE = "131";
 
-	public static String SPLITS = "1524,3048,4572,9144";
+	public static String SPLITS = "305,1524,3048,6096,9144,18288";
 
 	public static String RUNUP = "18288";
 	

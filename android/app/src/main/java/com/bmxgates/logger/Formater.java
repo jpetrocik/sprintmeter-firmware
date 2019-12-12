@@ -35,16 +35,20 @@ public class Formater {
 	}
 
 	public static CharSequence time(long time, boolean fixed) {
-		long sec = time/1000000;
-		long min = sec/60;
-		long milis = time%1000;
+		long min = Math.abs(time/60000000);
+		time = time % 60000000;
+		long sec = Math.abs(time/1000000);
+		time = time % 1000000;
+		long millis = Math.abs(Math.round(time/1000.0));
 
-		sec = sec - min*60;
-		
+
+		//add sign to time, where split diff is negative
+		String sign = time<0?"-":"";
+
 		if (fixed)
-			return String.format("%02d:", min) + String.format("%02d.", sec) + String.format("%03d", milis);
+			return sign + String.format("%02d:", min) + String.format("%02d.", sec) + String.format("%03d", millis);
 		else 
-			return (min>0?String.format("%02d:", min):"") + (sec>0?String.format("%02d.", sec):"0.") + String.format("%03d", milis);
+			return sign + (min>0?String.format("%02d:", min):"") + (sec>0?String.format("%02d.", sec):"0.") + String.format("%03d", millis);
 			
 	}
 	

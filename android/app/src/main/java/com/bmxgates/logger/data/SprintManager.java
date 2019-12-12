@@ -1,8 +1,5 @@
 package com.bmxgates.logger.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.bmxgates.logger.data.Sprint.Split;
+
+import java.util.ArrayList;
+import java.util.List;
 public class SprintManager {
 
 	public enum Type {TRACK, BOX, SPRINT};
@@ -159,6 +159,17 @@ public class SprintManager {
 			return currentSprint.split(distance, wheel);
 		
 		return null;
+	}
+
+	public Split bestSplit(long distance, int wheel){
+		Split best = null;
+		for (Sprint sprint : sprintHistory) {
+			Split split = sprint.split(distance, wheel);
+			if (best == null || best.time > split.time)
+				best = split;
+		}
+
+		return best;
 	}
 
 	public boolean isReady() {

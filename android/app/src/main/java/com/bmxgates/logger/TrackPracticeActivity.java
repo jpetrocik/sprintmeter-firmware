@@ -133,15 +133,16 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		int nextMark = 0;
 		while (nextMark < marks.length) {
 			Split adjSplit = sprint.split(marks[nextMark], wheelSize);
+			Split bestSplit = sprintManager.bestSplit(marks[nextMark], wheelSize);
 			if (adjSplit == null)
 				break;
 
-			sprintArrayAdatper.add(adjSplit);
+			sprintArrayAdatper.add(adjSplit, bestSplit);
 
 			nextMark++;
 		}
 
-		sprintArrayAdatper.add(sprint.allSplits().get(sprint.allSplits().size() - 1));
+//		sprintArrayAdatper.add(sprint.allSplits().get(sprint.allSplits().size() - 1));
 
 	}
 
@@ -231,17 +232,19 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 		// auto stop timer is enabled
 		if (autoStop && speedometerView.getDistance() >= track.autoStop) {
-			Split mSplit = sprintManager.split(track.autoStop, wheelSize);
 
 			// remove over distance and update ui
-			if (speedometerView.getDistance() > track.autoStop) {
-				sprintManager.removeSplit(speedometerView.getDistance());
-				sprintManager.addSplit(mSplit);
+//			if (speedometerView.getDistance() > track.autoStop) {
+//				sprintManager.removeSplit(speedometerView.getDistance());
+//				sprintManager.addSplit(calculatedSplit);
 
-			}
+//			}
 
-			sprintArrayAdatper.add(mSplit);
-			speedometerView.set(-1, mSplit.distance, mSplit.time);
+			Split Split = sprintManager.split(track.autoStop, wheelSize);
+			Split bestSplit = sprintManager.bestSplit(track.autoStop, wheelSize);
+			sprintArrayAdatper.add(Split, bestSplit);
+
+			speedometerView.set(-1, Split.distance, Split.time);
 			speedometerView.setMaxSpeed(sprintManager.maxSpeed());
 
 			stopSprint();
@@ -251,8 +254,9 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 		// record splits at marked distances
 		if (nextMark < marks.length && speedometerView.getDistance() >= marks[nextMark]) {
-			Split mSplit = sprintManager.split(marks[nextMark], wheelSize);
-			sprintArrayAdatper.add(mSplit);
+			Split split = sprintManager.split(marks[nextMark], wheelSize);
+			Split bestSplit = sprintManager.bestSplit(marks[nextMark], wheelSize);
+			sprintArrayAdatper.add(split, bestSplit);
 
 			nextMark++;
 		}
