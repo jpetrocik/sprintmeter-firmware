@@ -19,6 +19,8 @@ public class Sprint {
 
 	List<Split> splits = new ArrayList<Split>();
 
+	boolean valid = true;
+
 	protected Sprint(long sprintId, int trackId){
 		this.sprintId = sprintId;
 		this.trackId = trackId;
@@ -49,7 +51,15 @@ public class Sprint {
 		time = split.time;
 		speed = split.speed;
 	}
-	
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
 //	public void removeSplit(long distance) {
 //		Iterator<Split> allSplits = splits.iterator();
 //

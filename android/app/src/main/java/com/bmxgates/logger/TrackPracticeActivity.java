@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bmxgates.commons.MathUtils;
 import com.bmxgates.logger.TrackLocator.Track;
 import com.bmxgates.logger.data.Sprint;
 import com.bmxgates.logger.data.Sprint.Split;
@@ -18,7 +19,9 @@ import com.bmxgates.logger.data.SprintManager;
 import com.bmxgates.logger.data.SprintManager.Type;
 import com.bmxgates.ui.SwipeListener;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TrackPracticeActivity extends AbstractSprintActivity implements LocationListener {
 
@@ -137,10 +140,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	protected void loadSprint(int index) {
 
-		//TODO The wheel size could have changed
-		long[] marks = SettingsActivity.getSplits(this);
-		boolean autoStop = SettingsActivity.getAutoStop(this);
-
 		Sprint sprint = sprintManager.get(index);
 		int sprintNum = sprintManager.totalSprints() - index;
 
@@ -215,7 +214,89 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 		speedometerView.setSpeed(-1);
 
+		validateCurrentSprint();
+
 		sprintManager.stop();
+	}
+
+	protected void validateCurrentSprint(){
+
+		if (sprintManager.getDistance() < 4572) {
+			sprintManager.setValid(false);
+			return;
+		}
+
+		if (sprintManager.totalSprints() < 6) {
+			return;
+		}
+
+		List<Long> maxTimes = new ArrayList<Long>();
+		List<Long> splitTimes = new ArrayList<Long>();
+
+		int nextMark = 0;
+		while (nextMark < marks.length) {
+			List<Long> rawMarkTimes = new ArrayList<Long>();
+			for (int i = 0 ; i < sprintManager.totalSprints(); i++) {
+
+				Sprint sprint = sprintManager.get(i);
+				if (sprint.isValid()) {
+					Split split = sprint.calculateApproximateSplit(marks[nextMark]);
+					if (split == null)
+						break;
+
+					rawMarkTimes.add(split.time);
+				}
+			}
+
+
+			long maxTime = MathUtils.boundryThreshold(rawMarkTimes);
+			maxTimes.add(maxTime);
+
+			nextMark++;
+		}
+
+		if (autoStop) {
+			List<Long> rawMarkTimes = new ArrayList<Long>();
+			for (int i = 0 ; i < sprintManager.totalSprints(); i++) {
+
+				Sprint sprint = sprintManager.get(i);
+				if (sprint.isValid()) {
+					Split split = sprint.calculateApproximateSplit(marks[nextMark]);
+					if (split == null)
+						break;
+
+					rawMarkTimes.add(split.time);
+				}
+			}
+
+
+			long maxTime = MathUtils.boundryThreshold(rawMarkTimes);
+			maxTimes.add(maxTime);
+
+		}
+
+
+
+		while (nextMark < marks.length) {
+			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
+			if (split == null)
+				break;
+
+			splitTimes.add(split.time);
+			nextMark++;
+		}
+
+		if (autoStop) {
+			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
+			if (split != null)
+				splitTimes.add(split.time);
+		}
+
+		//calculate boundary threshold on all times and filter
+		for (int i = 0 ; i < splitTimes.size() ; i++) {
+			if (splitTimes.get(i)> maxTimes.get(i))
+				sprintManager.setValid(false);
+		}
 	}
 
 	/**
@@ -297,13 +378,13 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	public void enableAutoReady() {
 		autoReadyChecker = createAutoReadyChecker();
-		handler.postDelayed(autoReadyChecker, 1000);
+		handler.postDelayed(autoReadyChecker, 500);
 	}
 
 	Runnable createAutoReadyChecker() {
 		return new Runnable() {
 			public void run() {
-				if (System.currentTimeMillis() > (TrackPracticeActivity.this.lastMessageTime + 5000)) {
+				if (System.currentTimeMillis() > (TrackPracticeActivity.this.lastMessageTime + 1000)) {
 					TrackPracticeActivity.this.stopSprint();
 					TrackPracticeActivity.this.readySprint();
 				}

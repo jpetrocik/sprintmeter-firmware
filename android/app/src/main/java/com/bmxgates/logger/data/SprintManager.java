@@ -92,33 +92,36 @@ public class SprintManager {
 	}
 
 	public void stop(){
-		
-		if (database != null){
-			new AsyncTask<Sprint, Void, Void>() {
+		if (currentSprint.valid) {
+			if (database != null) {
+				new AsyncTask<Sprint, Void, Void>() {
 
-				@Override
-				protected Void doInBackground(Sprint... allSprints) {
-					
-					//actually is always only a single sprint
-					for (Sprint sprint : allSprints){
-						long sprintId  = System.currentTimeMillis();
-						
-						for (Split split : sprint.getSplits()){
-							ContentValues values = new ContentValues();
-							values.put(SprintDatabaseHelper.COLUMN_SPRINT_ID, sprintId);
-							
-							values.put(SprintDatabaseHelper.COLUMN_DISTANCE, split.distance);
-							values.put(SprintDatabaseHelper.COLUMN_TIME, split.time);
-							values.put(SprintDatabaseHelper.COLUMN_SPEED, split.speed);
-							values.put(SprintDatabaseHelper.COLUMN_TRACK_ID, sprint.trackId);
-							values.put(SprintDatabaseHelper.COLUMN_SPRINT_TYPE, SprintManager.this.type.toString());
-							database.insert(SprintDatabaseHelper.TABLE_SPRINT_TIMES, null, values);
+					@Override
+					protected Void doInBackground(Sprint... allSprints) {
+
+						//actually is always only a single sprint
+						for (Sprint sprint : allSprints) {
+							long sprintId = System.currentTimeMillis();
+
+							for (Split split : sprint.getSplits()) {
+								ContentValues values = new ContentValues();
+								values.put(SprintDatabaseHelper.COLUMN_SPRINT_ID, sprintId);
+
+								values.put(SprintDatabaseHelper.COLUMN_DISTANCE, split.distance);
+								values.put(SprintDatabaseHelper.COLUMN_TIME, split.time);
+								values.put(SprintDatabaseHelper.COLUMN_SPEED, split.speed);
+								values.put(SprintDatabaseHelper.COLUMN_TRACK_ID, sprint.trackId);
+								values.put(SprintDatabaseHelper.COLUMN_SPRINT_TYPE, SprintManager.this.type.toString());
+								database.insert(SprintDatabaseHelper.TABLE_SPRINT_TIMES, null, values);
+							}
 						}
+						return null;
 					}
-					return null;
-				}
 
-			}.execute(currentSprint);
+				}.execute(currentSprint);
+			}
+		} else {
+			sprintHistory.remove(currentSprint);
 		}
 		currentSprint = null;
 	}
@@ -177,6 +180,11 @@ public class SprintManager {
 			return currentSprint.calculateApproximateSplit(distance);
 
 		return null;
+	}
+
+	public void setValid(boolean valid) {
+		if (currentSprint != null)
+			currentSprint.setValid(valid);
 	}
 
 	public Split bestSplit(long distance){
