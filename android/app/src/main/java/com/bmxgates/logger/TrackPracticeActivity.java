@@ -118,31 +118,36 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	protected void loadSprint(int index) {
 
 		//TODO The wheel size could have changed
-		int wheelSize = SettingsActivity.getWheelSize(this);
 		long[] marks = SettingsActivity.getSplits(this);
+		boolean autoStop = SettingsActivity.getAutoStop(this);
 
 		Sprint sprint = sprintManager.get(index);
 		int sprintNum = sprintManager.totalSprints() - index;
 
-		speedometerView.set(-1.0, sprint.distance(), sprint.time());
-		speedometerView.setMaxSpeed(sprint.maxSpeed());
+		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
+		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 		sprintCountView.setText("Sprint #" + sprintNum);
 		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
 
 		sprintArrayAdatper.clear();
 		int nextMark = 0;
 		while (nextMark < marks.length) {
-			Split adjSplit = sprint.split(marks[nextMark], wheelSize);
-			Split bestSplit = sprintManager.bestSplit(marks[nextMark], wheelSize);
-			if (adjSplit == null)
+			Split split = sprint.calculateApproximateSplit(marks[nextMark]);
+			Split bestSplit = sprintManager.bestSplit(marks[nextMark]);
+			if (split == null)
 				break;
 
-			sprintArrayAdatper.add(adjSplit, bestSplit);
+			sprintArrayAdatper.add(split, bestSplit);
 
 			nextMark++;
 		}
 
-//		sprintArrayAdatper.add(sprint.allSplits().get(sprint.allSplits().size() - 1));
+		if (autoStop) {
+			Split split = sprint.calculateApproximateSplit(track.autoStop);
+			Split bestSplit = sprintManager.bestSplit(track.autoStop);
+			if (split != null)
+				sprintArrayAdatper.add(split, bestSplit);
+		}
 
 	}
 
@@ -212,54 +217,40 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		if (checksumError)
 			speedometerView.setError(true);
 			
-		int splitTime = msg.arg1;
-
-		//first split
-		if (speedometerView.getDistance() == 0) {
+		//ignore first split, since first split is actually starting point
+		if (sprintManager.getDistance() == 0) {
 			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 			goButton.setText("Stop");
-
-			speedometerView.setDistance(wheelSize/2);
 			return true;
-
-		//all other splits
-		} else {
-			speedometerView.add(wheelSize, splitTime);
 		}
-		
-		// save split time
-		sprintManager.addSplit(speedometerView.getDistance(), speedometerView.getTime(), speedometerView.getSpeed());
+
+		int splitTime = msg.arg1;
+		sprintManager.addSplitTime(splitTime, wheelSize);
+
 
 		// auto stop timer is enabled
-		if (autoStop && speedometerView.getDistance() >= track.autoStop) {
+		if (autoStop && sprintManager.getDistance() >= track.autoStop) {
 
-			// remove over distance and update ui
-//			if (speedometerView.getDistance() > track.autoStop) {
-//				sprintManager.removeSplit(speedometerView.getDistance());
-//				sprintManager.addSplit(calculatedSplit);
 
-//			}
-
-			Split Split = sprintManager.split(track.autoStop, wheelSize);
-			Split bestSplit = sprintManager.bestSplit(track.autoStop, wheelSize);
+			Split Split = sprintManager.calculateApproximateSplit(track.autoStop);
+			Split bestSplit = sprintManager.bestSplit(track.autoStop);
 			sprintArrayAdatper.add(Split, bestSplit);
 
 			speedometerView.set(-1, Split.distance, Split.time);
-			speedometerView.setMaxSpeed(sprintManager.maxSpeed());
+			speedometerView.setMaxSpeed(sprintManager.getMaxSpeed());
 
 			stopSprint();
 
-			return true;
-		}
-
-		// record splits at marked distances
-		if (nextMark < marks.length && speedometerView.getDistance() >= marks[nextMark]) {
-			Split split = sprintManager.split(marks[nextMark], wheelSize);
-			Split bestSplit = sprintManager.bestSplit(marks[nextMark], wheelSize);
+			// record splits at marked distances
+		} else if (nextMark < marks.length && sprintManager.getDistance() >= marks[nextMark]) {
+			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
+			Split bestSplit = sprintManager.bestSplit(marks[nextMark]);
 			sprintArrayAdatper.add(split, bestSplit);
 
 			nextMark++;
 		}
+
+		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
 
 		return true;
 

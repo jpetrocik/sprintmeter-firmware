@@ -1,7 +1,6 @@
 package com.bmxgates.logger.data;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Sprint {
@@ -16,6 +15,8 @@ public class Sprint {
 
 	long time;
 
+	double speed;
+
 	List<Split> splits = new ArrayList<Split>();
 
 	protected Sprint(long sprintId, int trackId){
@@ -27,7 +28,11 @@ public class Sprint {
 		this.sprintId = sprintId;
 	}
 
-	public Split addSplit(long distance, long time, double speed) {
+	public Split addSplitTime(long splitTime, int splitDistance) {
+		distance += splitDistance;
+		time += splitTime;
+		speed = (splitTime) / splitDistance;
+
 		Split split = new Split(distance, time, speed);
 		addSplit(split);
 		
@@ -42,19 +47,20 @@ public class Sprint {
 
 		distance = split.distance;
 		time = split.time;
+		speed = split.speed;
 	}
 	
-	public void removeSplit(long distance) {
-		Iterator<Split> allSplits = splits.iterator();
-		
-		while (allSplits.hasNext()){
-			Split split = allSplits.next();
-			if(split.distance==distance){
-				allSplits.remove();
-				break;
-			}
-		}
-	}
+//	public void removeSplit(long distance) {
+//		Iterator<Split> allSplits = splits.iterator();
+//
+//		while (allSplits.hasNext()){
+//			Split split = allSplits.next();
+//			if(split.distance==distance){
+//				allSplits.remove();
+//				break;
+//			}
+//		}
+//	}
 
 	/**
 	 * Finds the split for a given distance, using linear function aX+b=Y, to
@@ -62,18 +68,25 @@ public class Sprint {
 	 * 
 	 * @param distance
 	 */
-	public Split split(long distance, int wheel) {
+	public Split calculateApproximateSplit(long distance) {
 		Split low = null, high = null;
 
-		//done for fast look up, looping is slow
-		int index = (int) (distance/wheel);
+		for (Split s :splits) {
+			if (s.distance < distance) {
+				low = s;
+			}
+			if (s.distance >= distance) {
+				high = s;
+				break;
+			}
+		}
 
-		high = splits.get(index-1);
+		if (high == null)
+			return null;
+
 		if (high.distance == distance)
 			return high;
 			
-		low = splits.get(index-2);
-
 		//r=d/t
 		double speed =  (high.distance - low.distance) / (double)(high.time - low.time);
 		
@@ -84,20 +97,32 @@ public class Sprint {
 		return new Split(distance, time, speed);
 	}
 
-	public List<Split> allSplits() {
+	public List<Split> getSplits() {
 		return splits;
 	}
 
-	public double maxSpeed() {
+	public double getMaxSpeed() {
 		return maxSpeed;
 	}
 
-	public long time() {
+	public long getTime() {
 		return time;
 	}
 
-	public long distance() {
+	public long getDistance() {
 		return distance;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public int getTrackId() {
+		return trackId;
+	}
+
+	public void setTrackId(int trackId) {
+		this.trackId = trackId;
 	}
 
 	public static class Split {
@@ -112,18 +137,7 @@ public class Sprint {
 			this.time = time;
 			this.speed = speed;
 		}
-
-		public String toString(){
-			return distance + "/" + time;
-		}
 	}
 
-	public int getTrackId() {
-		return trackId;
-	}
-
-	public void setTrackId(int trackId) {
-		this.trackId = trackId;
-	}
 
 }

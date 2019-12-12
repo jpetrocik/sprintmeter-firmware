@@ -95,24 +95,27 @@ public class SprintActivity extends AbstractSprintActivity {
 			speedometerView.setDistance(runup);
 			return true;
 		}
-		
+
+		int splitTime = msg.arg1;
+
 		//update speedometer view
-		if (speedometerView.getDistance() == 0) {
+		if (sprintManager.getDistance() == 0) {
 			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 			goButton.setText("Stop");
-
-			speedometerView.setDistance(1);
 			return true;
+
 		} else {
-			speedometerView.add(wheelSize, msg.arg1);
-			sprintGraph.addSplit(speedometerView.getDistance(), speedometerView.getSpeed());
-			sprintManager.addSplit(speedometerView.getDistance(), speedometerView.getTime(), speedometerView.getSpeed());
+
+			sprintManager.addSplitTime(splitTime, wheelSize);
+
+			speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
+			sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
 		}
 
 
 		//stop once sprint distance is reached
-		if (speedometerView.getDistance() >= sprintDistance) {
-			Split split = sprintManager.split(sprintDistance, wheelSize);
+		if (sprintManager.getDistance() >= sprintDistance) {
+			Split split = sprintManager.calculateApproximateSplit(sprintDistance);
 			speedometerView.set(-1, split.distance, split.time);
 
 			stopSprint();

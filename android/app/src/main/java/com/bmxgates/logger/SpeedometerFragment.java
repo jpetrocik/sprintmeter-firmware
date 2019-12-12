@@ -14,21 +14,14 @@ public class SpeedometerFragment extends Fragment {
 
 	TextView speedView, distanceView, clockView, maxView, mph20View;
 
-	double maxSpeed = 0;
-
 	long time20mph;
 
 	boolean past20mph = false;
 
+	double maxSpeed;
+
 	double speedAvg1, speedAvg2, speedAvg3;
 
-	long time;
-	
-	long distance;
-	
-	double speed;
-	
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -80,39 +73,20 @@ public class SpeedometerFragment extends Fragment {
 
 	}
 
-	public long getTime() {
-		return time;
-	}
-
 	public void setTime(long time) {
-		this.time = time;
-		
 		clockView.setText(Formater.time(time, true));
 	}
 
 
-	public long getDistance() {
-		return distance;
-	}
-
 	public void setDistance(long distance) {
-		
 		if (distance < 0)
-			this.distance = 0;
-		else
-			this.distance = distance;
-		
-		distanceView.setText(Formater.distance(this.distance));
+			distance = 0;
+
+		distanceView.setText(Formater.distance(distance));
 	}
 
-
-	public double getSpeed() {
-		return speed;
-	}
 
 	public void setSpeed(double speed) {
-		this.speed = speed;
-		
 		if (speed < 0) {
 			speedView.setText("--.-");
 			speedAvg1 = 0;
@@ -149,14 +123,14 @@ public class SpeedometerFragment extends Fragment {
 		}
 	}
 
-	public void add(int wheelSize, int split) {
-		
-		time += split;
-		distance += wheelSize;
-		speed = wheelSize / (double) split;
-		set(speed, distance, time);
-		
-	}
+//	public void add(int wheelSize, int split) {
+//
+//		time += split;
+//		distance += wheelSize;
+//		speed = wheelSize / (double) split;
+//		set(speed, distance, time);
+//
+//	}
 	
 	public void setError(boolean error){
 		if (error){

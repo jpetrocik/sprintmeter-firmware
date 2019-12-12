@@ -70,12 +70,11 @@ public class SprintManager {
 			currentDistance = results.getInt(distanceIndex);
 			currentSpeed = results.getInt(speedIndex);
 
-			sprint.addSplit(currentDistance, currentTime, currentSpeed);
+			sprint.addSplit(new Split(currentDistance, currentTime, currentSpeed));
 		}
 
 	}
-	
-	
+
 	public int start(int trackId){
 		currentSprint = new Sprint(System.currentTimeMillis(), trackId);
 		sprintHistory.add(0, currentSprint);
@@ -84,9 +83,8 @@ public class SprintManager {
 	}
 
 	public int start(){
-		
 		if (type == Type.TRACK)
-			throw new IllegalArgumentException("Track pratice must have associated track");
+			throw new IllegalArgumentException("Track practice must have associated track");
 		currentSprint = new Sprint(System.currentTimeMillis());
 		sprintHistory.add(0, currentSprint);
 		
@@ -105,7 +103,7 @@ public class SprintManager {
 					for (Sprint sprint : allSprints){
 						long sprintId  = System.currentTimeMillis();
 						
-						for (Split split : sprint.allSplits()){
+						for (Split split : sprint.getSplits()){
 							ContentValues values = new ContentValues();
 							values.put(SprintDatabaseHelper.COLUMN_SPRINT_ID, sprintId);
 							
@@ -124,63 +122,72 @@ public class SprintManager {
 		}
 		currentSprint = null;
 	}
-	
-	public Sprint get(int index){
-		return sprintHistory.get(index);
-	}
-
-	public Split addSplit(long distance, long time, double speed) {
-		if (currentSprint == null){
-			Log.i("BMXSprintManager", "No current spring");
-			return null;
-		}
-		return currentSprint.addSplit(distance, time, speed);
-	}
-	
-	public void addSplit(Split split) {
-		if (currentSprint == null){
-			Log.i("BMXSprintManager", "No current spring");
-			return;
-		}
-		currentSprint.addSplit(split);
-	}
-
-	public void removeSplit(long distance) {
-		if (currentSprint == null){
-			Log.i("BMXSprintManager", "No current spring");
-			return;
-		}
-		currentSprint.removeSplit(distance);
-	}
-	
-	
-	public Split split(long distance, int wheel){
-		if (currentSprint != null)
-			return currentSprint.split(distance, wheel);
-		
-		return null;
-	}
-
-	public Split bestSplit(long distance, int wheel){
-		Split best = null;
-		for (Sprint sprint : sprintHistory) {
-			Split split = sprint.split(distance, wheel);
-			if (best == null || best.time > split.time)
-				best = split;
-		}
-
-		return best;
-	}
 
 	public boolean isReady() {
 		return currentSprint != null;
 	}
 
-	public double maxSpeed() {
+	public Sprint get(int index){
+		return sprintHistory.get(index);
+	}
+
+	public Split addSplitTime(long splitTime, int splitDistance) {
+		if (currentSprint == null){
+			Log.i("BMXSprintManager", "No current sprint");
+			return null;
+		}
+		return currentSprint.addSplitTime(splitTime, splitDistance);
+	}
+	
+	public void addSplit(Split split) {
+		if (currentSprint == null){
+			Log.i("BMXSprintManager", "No current sprint");
+			return;
+		}
+		currentSprint.addSplit(split);
+	}
+
+	public long getDistance() {
 		if (currentSprint != null)
-			return currentSprint.maxSpeed();
-		
+			return currentSprint.getDistance();
 		return 0;
+	}
+
+	public double getMaxSpeed() {
+		if (currentSprint != null)
+			return currentSprint.getMaxSpeed();
+		return 0;
+	}
+
+	public double getSpeed() {
+		if (currentSprint != null)
+			return currentSprint.getSpeed();
+		return 0;
+	}
+
+	public long getTime() {
+		if (currentSprint != null)
+			return currentSprint.getTime();
+		return 0;
+	}
+
+
+	public Split calculateApproximateSplit(long distance){
+		if (currentSprint != null)
+			return currentSprint.calculateApproximateSplit(distance);
+
+		return null;
+	}
+
+	public Split bestSplit(long distance){
+		Split best = null;
+		for (Sprint sprint : sprintHistory) {
+			Split split = sprint.calculateApproximateSplit(distance);
+			if (split != null && (best == null || best.time > split.time))
+				best = split;
+		}
+
+		return best;
 	}
 
 	public int totalSprints() {
