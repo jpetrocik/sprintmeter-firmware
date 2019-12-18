@@ -13,7 +13,7 @@ import android.util.Log;
 import com.bmxgates.logger.data.SprintDatabaseHelper;
 
 public class BMXSprintApplication extends Application {
-	private static final String BMX_SPRINT_APPLICATION ="BMXSprintApplication";
+	public static final String BMX_SPRINT_APPLICATION ="BMXSprintApplication";
 
 	private static final int TOTAL_MESSAGE_SIZE = 9;
 	private static final int SPLIT_START_BYTE = 3;
@@ -61,7 +61,7 @@ public class BMXSprintApplication extends Application {
 				try {
 					int split = (ui(buffer[i+SPLIT_START_BYTE]) << 24) | (ui(buffer[i+SPLIT_START_BYTE+1]) << 16) | (ui(buffer[i+SPLIT_START_BYTE+2]) << 8) | (ui(buffer[i+SPLIT_START_BYTE]));
 
-					Log.v(BMX_SPRINT_APPLICATION, "Split: " + split);
+//					Log.v(BMXSprintApplication.class.getName(), "Split: " + split);
 
 					Message message = serialHandler.obtainMessage();
 					message.arg1 = split;
@@ -70,7 +70,7 @@ public class BMXSprintApplication extends Application {
 
 					return i + TOTAL_MESSAGE_SIZE;
 				} catch (Throwable t) {
-					Log.i(BMX_SPRINT_APPLICATION, "Failed processing message: " + t.getMessage());
+					Log.i(BMXSprintApplication.class.getName(), "Failed processing message: " + t.getMessage());
 				}
 
 			}

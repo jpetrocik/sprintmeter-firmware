@@ -99,7 +99,7 @@ public class MathUtils {
 			long q1 = median(bisected[0]);
 			long q3 = median(bisected[1]);
 			long interquartileRange = q3 - q1;
-			return q3 + interquartileRange * 3L;
+			return q3 + (interquartileRange * 2L);
 		}
 	}
 

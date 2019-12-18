@@ -1,12 +1,5 @@
 package com.bmxgates.logger;
 
-import org.achartengine.ChartFactory;
-import org.achartengine.GraphicalView;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
-
 import android.app.ActionBar.LayoutParams;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,6 +10,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bmxgates.logger.data.Sprint.Split;
+
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 public class SprintGraphFragment extends Fragment {
 
@@ -70,15 +70,15 @@ public class SprintGraphFragment extends Fragment {
 
 	public void addSplit(long distance, double speed) {
 
-//		if (speed < minSpeed) {
-//			minSpeed = speed;
-//			mSeriesRender.setYAxisMin(minSpeed * Formater.SPEED_CONVERSION - 5);
-//		}
-//
-//		if (speed > maxSpeed) {
-//			maxSpeed = speed;
-//			mSeriesRender.setYAxisMax(maxSpeed * Formater.SPEED_CONVERSION + 5);
-//		}
+		if (speed < minSpeed) {
+			minSpeed = speed;
+			mSeriesRender.setYAxisMin(minSpeed * Formater.SPEED_CONVERSION - 1);
+		}
+
+		if (speed > maxSpeed) {
+			maxSpeed = speed;
+			mSeriesRender.setYAxisMax(maxSpeed * Formater.SPEED_CONVERSION + 1);
+		}
 
 		double userSpeed = speed * Formater.SPEED_CONVERSION;
 		splits.add(distance, (double) (Math.round(userSpeed * 100.0) / 100.0));
@@ -88,7 +88,6 @@ public class SprintGraphFragment extends Fragment {
 	public void reset() {
 		splits.clear();
 		graphicalView.repaint();
-		// index=0;
 	}
 
 }

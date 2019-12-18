@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 
 public class TrackLocator {
+	private static final String BMX_TRACK_LOCATOR = "BMXTrackLocator";
 
 	private static final long FIX_EXPIRATION = 300000;
 	
@@ -48,9 +49,9 @@ public class TrackLocator {
 		Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		if (location != null) {
 			long fixTime = location.getTime();
-			Log.i("BMXTrackLocator", "Using last know location fixed at " + (System.currentTimeMillis() - fixTime));
+			Log.i( TrackLocator.class.getName(), "Using last know location fixed at " + (System.currentTimeMillis() - fixTime));
 			if (System.currentTimeMillis() - fixTime < FIX_EXPIRATION){
-				Log.i("BMXTrackLocator", "Using last know location");
+				Log.i( TrackLocator.class.getName(), "Using last know location");
 				locationListener.onLocationChanged(location);
 				return;
 			}
@@ -61,7 +62,7 @@ public class TrackLocator {
         	Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
         	locationManager.requestSingleUpdate(criteria, locationListener, Looper.myLooper());
-			Log.i("BMXTrackLocator", "Scheduled single GPS update");
+			Log.i( TrackLocator.class.getName(), "Scheduled single GPS update");
         }
         
         return;
@@ -77,9 +78,11 @@ public class TrackLocator {
 			Track track = TRACKS.get(i);
 			Location.distanceBetween(location.getLatitude(), location.getLongitude(), track.lat, track.log, results);
 
-			Log.d("BMXLogger","Distances: " + results[0]);
-			if (results[0]<500)
+			Log.d( TrackLocator.class.getName(),track + " is " + results[0] + " meters away");
+			if (results[0]<500) {
+				Log.d( TrackLocator.class.getName(),"Choosing track " + track);
 				return track;
+			}
 		}
 		
 		return UNKNOWN_TRACK;

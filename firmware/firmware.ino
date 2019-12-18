@@ -1,6 +1,7 @@
 //#include <Wire.h>
 #include <avr/sleep.h>
-#include "sleep.h"
+#include <Ticker.h>
+//#include "sleep.h"
 
 /**
    Board Notes
@@ -13,7 +14,7 @@
    Check Interrupts: Reed Falling, Wake Low
 */
 
-//#define SLEEP_ENABLED
+#define SLEEP_ENABLED
 
 #define BOUNCE_DELAY 5
 
@@ -23,12 +24,16 @@
 #define BT_ENABLE 7
 #define RED_LED  A0
 
-#define SLEEP 1200000
+#define SLEEP 300000000
 #define DATA_BUFFER 1500 //about 1000' of buffered data
 
 unsigned long previousTriggerTime = 0;
 volatile unsigned long triggeredTime = 0;
 volatile int triggered = false;
+
+void tick();
+
+Ticker ledTicker(tick, 500); 
 
 void setup() {
   Serial.begin(115200);
@@ -42,6 +47,7 @@ void setup() {
   //Wire.begin();
   //TWBR = 12;
 
+  //http://www.gammon.com.au/power
   //disable ADC for power savings
   ADCSRA = 0;
 
@@ -49,7 +55,7 @@ void setup() {
 
   attachInterrupt(1, sensorRead_isr, FALLING);
 
-  digitalWrite(RED_LED, HIGH);
+  ledTicker.start();
 }
 
 void enableBluetooth() {
@@ -59,10 +65,22 @@ void enableBluetooth() {
   digitalWrite(BT_ENABLE, HIGH);
 }
 
+void tick() {
+  int state = digitalRead(RED_LED);
+  digitalWrite(RED_LED, !state);
+}
+
 void loop() {
-
+  ledTicker.update();
+  
   int btConnected = digitalRead(STATE);
-
+  if (!btConnected && ledTicker.state() == STOPPED) {
+      ledTicker.start();
+  } else if (btConnected) {
+    ledTicker.stop();
+    digitalWrite(RED_LED, HIGH);
+  }
+  
   //check for new data
   if (triggered) {
     //calculate current split time
@@ -92,21 +110,24 @@ void loop() {
     if (micros() - triggeredTime > SLEEP){
       digitalWrite(BT_ENABLE, LOW);
       digitalWrite(RED_LED, LOW);
-  
-      detachInterrupt(1);
-  
-      sleep_enable();
-      attachInterrupt(1, wake_isr, HIGH);
-      set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-      cli();
-      sei();
-      sleep_cpu();
-      sleep_disable();
-  
-      digitalWrite(BT_ENABLE, HIGH);
-      digitalWrite(RED_LED, HIGH);
-      attachInterrupt(1, sensorRead_isr, FALLING);
+      ledTicker.stop();
 
+      //remove current interrupt, sensorRead_isr()
+      detachInterrupt(1);
+
+      //disable ADC
+      ADCSRA = 0;
+      
+      set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+      sleep_enable();
+
+      //setup new interrupt, wake_isr()
+      noInterrupts();
+
+      attachInterrupt(1, wake_isr, HIGH);
+
+      interrupts();
+      sleep_cpu();
     }
 #endif
     
@@ -127,7 +148,13 @@ void sensorRead_isr() {
 void wake_isr()
 {
   sleep_disable();
-  detachInterrupt(0);
+  detachInterrupt(1);
+  
+  digitalWrite(BT_ENABLE, HIGH);
+  digitalWrite(RED_LED, HIGH);
+
+  attachInterrupt(1, sensorRead_isr, FALLING);
+
   triggeredTime = micros();
 }
 #endif

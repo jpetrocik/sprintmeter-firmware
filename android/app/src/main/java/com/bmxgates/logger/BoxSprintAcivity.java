@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.bmxgates.logger.TrackLocator.Track;
 import com.bmxgates.logger.data.SprintManager;
-import com.bmxgates.logger.data.SprintManager.Type;
 
 public class BoxSprintAcivity  extends TrackPracticeActivity {
 
@@ -14,14 +13,8 @@ public class BoxSprintAcivity  extends TrackPracticeActivity {
 		super.onCreate(savedInstanceState);
 		
 		findViewById(R.id.track_location).setVisibility(View.GONE);
-	}
 
-	protected void createSprintManager() {
-		sprintManager = new SprintManager(Type.BOX);
-		if (application.getDatabase() != null) {
-			onDatabaseOpened();
-		}
-
+		createSprintManager(SprintManager.Type.BOX);
 	}
 
 	@Override

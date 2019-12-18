@@ -42,7 +42,7 @@ public class SwipeListener implements View.OnTouchListener {
 		                    return callback.swipeRight();
 		                }
 		            } catch (Exception e) {
-		               Log.e("SwipeListener", e.getMessage());
+		               Log.e(SwipeListener.class.getName(), e.getMessage());
 		            }
 		            return false;
 		        }

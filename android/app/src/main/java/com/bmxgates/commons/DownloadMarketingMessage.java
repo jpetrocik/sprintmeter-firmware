@@ -1,8 +1,5 @@
 package com.bmxgates.commons;
 
-import java.io.InputStream;
-import java.net.URL;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,8 +8,11 @@ import android.util.Log;
 
 import com.google.common.io.ByteStreams;
 
+import java.io.InputStream;
+import java.net.URL;
+
 public class DownloadMarketingMessage extends AsyncTask<Void, Void, String> {
-	
+
 	protected static final String MESSAGE_RECEIVED = "message-recieved";
 
 	protected static final String MESSAGE_EXTRA_NAME = DownloadMarketingMessage.class.getPackage().toString() + ".Message";
@@ -36,7 +36,7 @@ public class DownloadMarketingMessage extends AsyncTask<Void, Void, String> {
 			return new String(data);
 
 		} catch (Exception e) {
-			Log.e("DownloadMarketingMessage", "Unable to download message");
+			Log.e(DownloadMarketingMessage.class.getName(), "Unable to download message");
 		}
 		return null;
 	}

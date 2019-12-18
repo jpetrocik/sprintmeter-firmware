@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,7 +18,6 @@ import com.bmxgates.logger.TrackLocator.Track;
 import com.bmxgates.logger.data.Sprint;
 import com.bmxgates.logger.data.Sprint.Split;
 import com.bmxgates.logger.data.SprintManager;
-import com.bmxgates.logger.data.SprintManager.Type;
 import com.bmxgates.ui.SwipeListener;
 
 import java.util.ArrayList;
@@ -25,13 +26,17 @@ import java.util.List;
 
 public class TrackPracticeActivity extends AbstractSprintActivity implements LocationListener {
 
-	int wheelSize;
-
 	boolean autoStop;
 
 	long[] marks;
 
-	SpeedometerFragment speedometerView;
+	int wheelSize;
+
+	int nextMark = 0;
+
+	int sprintIndex = 0;
+
+	Track track;
 
 	TextView sprintCountView;
 
@@ -39,33 +44,51 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	SplitAdapter sprintArrayAdatper;
 
-	int nextMark = 0;
-
-	Track track;
-
-	int sprintIndex = 0;
-
 	Handler handler;
 
 	Runnable autoReadyChecker;
 
+	Button goButton;
+
+	Button connectButton;
+
+	SpeedometerFragment speedometerView;
+
 	public TrackPracticeActivity() {
-		goButtonId = R.id.track_go_button;
-		connectButtonId = R.id.track_connect_button;
-		layoutId = R.layout.activity_track_practice;
-		
-		sprintManager = new SprintManager(Type.TRACK);
-
-		handler = new Handler(Looper.getMainLooper()) {
-
-		};
+		handler = new Handler(Looper.getMainLooper());
 	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_track_practice);
+
+		createSprintManager(SprintManager.Type.TRACK);
 
 		speedometerView = (SpeedometerFragment) getSupportFragmentManager().findFragmentById(R.id.track_speedometer);
+
+		// hide goButton until connection is established
+		goButton = (Button) findViewById(R.id.track_go_button);
+
+		// disable button until connected or connection fails
+		connectButton = (Button) findViewById(R.id.track_connect_button);
+		connectButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				connectionLost();
+				application.reconnect();
+			}
+		});
+
+		//decide which button to show initially
+		if (application.isConnected()) {
+			connectButton.setVisibility(View.GONE);
+			goButton.setVisibility(View.VISIBLE);
+		} else {
+			goButton.setVisibility(View.GONE);
+			connectButton.setVisibility(View.VISIBLE);
+			connectButton.setEnabled(false);
+		}
 
 		sprintCountView = (TextView) findViewById(R.id.track_sprint_count);
 
@@ -104,38 +127,16 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 			public void onClick(View v) {
 				if (!sprintManager.isReady()) {
 					readySprint();
+					enableAutoReady();
 				} else {
 					stopSprint();
 					handler.removeCallbacks(autoReadyChecker);
+					autoReadyChecker = null;
 				}
 			}
 		});
 
-		createSprintManager();
-		
 		TrackLocator.obtainLocation(this, this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		// reload settings
-		autoStop = SettingsActivity.getAutoStop(this);
-		marks = SettingsActivity.getSplits(this);
-		wheelSize = SettingsActivity.getWheelSize(this);
-	}
-
-	protected void createSprintManager() {
-		if (application.getDatabase() != null) {
-			onDatabaseOpened();
-		}
-	}
-
-	@Override
-	protected void onDatabaseOpened() {
-		super.onDatabaseOpened();
-		sprintCountView.setText("Sprint #" + (sprintManager.totalSprints() + 1));
 	}
 
 	protected void loadSprint(int index) {
@@ -188,12 +189,21 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	@Override
 	protected void readySprint() {
 		super.readySprint();
-		
+
+		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: READY");
+
 		if (track == null)
 			return;
-		
+
+		sprintCountView.setText("Sprint #" + (sprintManager.totalSprints() + 1));
+
+		// reload settings
+		autoStop = SettingsActivity.getAutoStop(this);
+		marks = SettingsActivity.getSplits(this);
+		wheelSize = SettingsActivity.getWheelSize(this);
+
 		//start sprint manager
-		int sprint = sprintManager.start(track.trackId);
+		int sprint = sprintManager.ready(track.trackId);
 
 		//update ui
 		displayLocation(track);
@@ -207,11 +217,11 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		nextMark = 0;
 	}
 
-	@Override
 	protected void stopSprint() {
+		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
+
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");
-
 		speedometerView.setSpeed(-1);
 
 		validateCurrentSprint();
@@ -221,7 +231,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	protected void validateCurrentSprint(){
 
-		if (sprintManager.getDistance() < 4572) {
+		if (sprintManager.getDistance() < 18288) {
 			sprintManager.setValid(false);
 			return;
 		}
@@ -231,8 +241,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		}
 
 		List<Long> maxTimes = new ArrayList<Long>();
-		List<Long> splitTimes = new ArrayList<Long>();
-
 		int nextMark = 0;
 		while (nextMark < marks.length) {
 			List<Long> rawMarkTimes = new ArrayList<Long>();
@@ -248,6 +256,10 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 				}
 			}
 
+			//ensure we have enough samples
+			if (rawMarkTimes.size() < 6) {
+				return;
+			}
 
 			long maxTime = MathUtils.boundryThreshold(rawMarkTimes);
 			maxTimes.add(maxTime);
@@ -261,7 +273,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 				Sprint sprint = sprintManager.get(i);
 				if (sprint.isValid()) {
-					Split split = sprint.calculateApproximateSplit(marks[nextMark]);
+					Split split = sprint.calculateApproximateSplit(track.autoStop);
 					if (split == null)
 						break;
 
@@ -269,34 +281,53 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 				}
 			}
 
+			//ensure we have enough samples
+			if (rawMarkTimes.size() < 6) {
+				return;
+			}
 
 			long maxTime = MathUtils.boundryThreshold(rawMarkTimes);
 			maxTimes.add(maxTime);
-
 		}
 
 
-
+		List<Long> splitTimes = new ArrayList<Long>();
+		nextMark = 0;
 		while (nextMark < marks.length) {
 			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
-			if (split == null)
-				break;
+
+			//this sprint is incomplete
+			if (split == null) {
+				sprintManager.setValid(false);
+				return;
+			}
 
 			splitTimes.add(split.time);
 			nextMark++;
 		}
 
 		if (autoStop) {
-			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
-			if (split != null)
-				splitTimes.add(split.time);
+			Split split = sprintManager.calculateApproximateSplit(track.autoStop);
+
+			//this sprint is incomplete
+			if (split == null) {
+				sprintManager.setValid(false);
+				return;
+			}
+
+			splitTimes.add(split.time);
 		}
 
 		//calculate boundary threshold on all times and filter
+		boolean valid = true;
 		for (int i = 0 ; i < splitTimes.size() ; i++) {
+
+			Log.i(TrackPracticeActivity.class.getName(), "Split: " + splitTimes.get(i) + ", Max: " + maxTimes.get(i));
 			if (splitTimes.get(i)> maxTimes.get(i))
-				sprintManager.setValid(false);
+				valid = false;
 		}
+		sprintManager.setValid(valid);
+
 	}
 
 	/**
@@ -305,18 +336,22 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	 * @param msg
 	 * @return
 	 */
-	protected boolean doHandleMessage(Message msg) {
-
-		if (super.doHandleMessage(msg))
-			return true;
+	protected boolean processSplit(Message msg) {
 
 		if (checksumError)
 			speedometerView.setError(true);
-			
+
+//		Log.v(TrackPracticeActivity.class.getName(), "Split: " + msg.arg1);
+
 		//ignore first split, since first split is actually starting point
 		if (sprintManager.getDistance() == 0) {
 			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 			goButton.setText("Stop");
+
+			//the bike has moved an unknown distance, so start the sprint with a half the
+			// distance of the wheel movement between splits
+			sprintManager.addSplitTime(0, wheelSize/2);
+
 			return true;
 		}
 
@@ -328,12 +363,11 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		if (autoStop && sprintManager.getDistance() >= track.autoStop) {
 
 
-			Split Split = sprintManager.calculateApproximateSplit(track.autoStop);
+			Split split = sprintManager.calculateApproximateSplit(track.autoStop);
 			Split bestSplit = sprintManager.bestSplit(track.autoStop);
-			sprintArrayAdatper.add(Split, bestSplit);
+			sprintArrayAdatper.add(split, bestSplit);
 
-			speedometerView.set(-1, Split.distance, Split.time);
-			speedometerView.setMaxSpeed(sprintManager.getMaxSpeed());
+			speedometerView.set(-1, split.distance, split.time);
 
 			stopSprint();
 
@@ -354,8 +388,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -366,14 +398,10 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void enableAutoReady() {
@@ -384,13 +412,52 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	Runnable createAutoReadyChecker() {
 		return new Runnable() {
 			public void run() {
-				if (System.currentTimeMillis() > (TrackPracticeActivity.this.lastMessageTime + 1000)) {
-					TrackPracticeActivity.this.stopSprint();
-					TrackPracticeActivity.this.readySprint();
+//				Log.v(TrackPracticeActivity.class.getName(), "Checking for auto stopping condition");
+				if (System.currentTimeMillis() > (TrackPracticeActivity.this.lastMessageTime + 2000)) {
+					if (sprintManager.mode() == SprintManager.Mode.SPRINTING) {
+						Log.i(TrackPracticeActivity.class.getName(), "Auto stopping sprint");
+						TrackPracticeActivity.this.stopSprint();
+					}
+
+					if (sprintManager.mode() == SprintManager.Mode.STOPPED && autoReadyChecker != null) {
+						TrackPracticeActivity.this.readySprint();
+					}
 				}
 
 				enableAutoReady();
 			}
 		};
 	}
+
+	/**
+	 * Perform all activity required when connection restored
+	 */
+	protected void connectionRestored() {
+		Log.i(AbstractSprintActivity.class.getName(), "Connection restored");
+
+		goButton.setVisibility(View.VISIBLE);
+		connectButton.setVisibility(View.GONE);
+
+	}
+
+	protected void connectionLost() {
+		Log.i(AbstractSprintActivity.class.getName(), "Connection lost");
+
+		goButton.setVisibility(View.GONE);
+		connectButton.setVisibility(View.VISIBLE);
+		connectButton.setText("Connecting...");
+		connectButton.setEnabled(false);
+	}
+
+	protected void connectionFailed() {
+		Log.i(AbstractSprintActivity.class.getName(), "Connection failed");
+
+		goButton.setVisibility(View.GONE);
+		connectButton.setVisibility(View.VISIBLE);
+		connectButton.setText("Reconnect");
+		connectButton.setEnabled(true);
+
+	}
+
+
 }

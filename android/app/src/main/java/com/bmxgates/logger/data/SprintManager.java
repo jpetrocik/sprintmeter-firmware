@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 public class SprintManager {
 
+	public enum Mode {STOPPED, READY, SPRINTING}
+
 	public enum Type {TRACK, BOX, SPRINT};
 	
 	public static final String DATABASE_CONNECTED = "SPRINT_MANAGER_READY";
@@ -23,15 +25,16 @@ public class SprintManager {
 	SQLiteDatabase database;
 	
 	Type type;
-	
+
 	public SprintManager(Type type) {
 		this.type = type;
 	}
 	
 	public void setDatabase(SQLiteDatabase database){
 		this.database = database;
-		
-		loadHistory();
+
+		if (this.database != null)
+			loadHistory();
 	}
 	
 	protected void loadHistory(){
@@ -75,14 +78,14 @@ public class SprintManager {
 
 	}
 
-	public int start(int trackId){
+	public int ready(int trackId){
 		currentSprint = new Sprint(System.currentTimeMillis(), trackId);
 		sprintHistory.add(0, currentSprint);
-		
+
 		return sprintHistory.size();
 	}
 
-	public int start(){
+	public int ready(){
 		if (type == Type.TRACK)
 			throw new IllegalArgumentException("Track practice must have associated track");
 		currentSprint = new Sprint(System.currentTimeMillis());
@@ -130,13 +133,25 @@ public class SprintManager {
 		return currentSprint != null;
 	}
 
+	public Mode mode() {
+		if (currentSprint == null) {
+			return Mode.STOPPED;
+		} else if ( currentSprint.getDistance() == 0) {
+			return Mode.READY;
+		} else if ( currentSprint.getDistance() > 0) {
+			return Mode.SPRINTING;
+		} else {
+			Log.w(SprintManager.class.getName(), "Unknown sprint condition");
+			return Mode.SPRINTING;
+		}
+	}
 	public Sprint get(int index){
 		return sprintHistory.get(index);
 	}
 
 	public Split addSplitTime(long splitTime, int splitDistance) {
 		if (currentSprint == null){
-			Log.i("BMXSprintManager", "No current sprint");
+			Log.i(SprintManager.class.getName(), "No current sprint");
 			return null;
 		}
 		return currentSprint.addSplitTime(splitTime, splitDistance);
@@ -144,7 +159,7 @@ public class SprintManager {
 	
 	public void addSplit(Split split) {
 		if (currentSprint == null){
-			Log.i("BMXSprintManager", "No current sprint");
+			Log.i(SprintManager.class.getName(), "No current sprint");
 			return;
 		}
 		currentSprint.addSplit(split);

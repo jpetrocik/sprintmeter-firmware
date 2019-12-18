@@ -29,8 +29,7 @@ import java.util.UUID;
  *
  */
 public class BluetoothSerial {
-	private static final String BMX_BLUETOOTH = "BMXBluetooth";
-	
+
 	public static final String BLUETOOTH_CONNECTED = "bluetooth-connection-started";
 	
 	public static final String BLUETOOTH_DISCONNECTED = "bluetooth-connection-lost";
@@ -71,7 +70,7 @@ public class BluetoothSerial {
 
 			if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
 				if (bluetoothDevice != null && bluetoothDevice.equals(eventDevice)){
-					Log.i(BMX_BLUETOOTH, "Received bluetooth disconnect notice. Status: " + (connected?"Connected":"Disconnected"));
+					Log.i(BluetoothSerial.class.getName(), "Received bluetooth disconnect notice. Status: " + (connected?"Connected":"Disconnected"));
 					
 					if (connected){
 						//clean up any streams
@@ -121,12 +120,12 @@ public class BluetoothSerial {
 	public void connect(){
 
 		if (connected){
-			Log.i(BMX_BLUETOOTH,"Connection request while already connected");
+			Log.i(BluetoothSerial.class.getName(),"Connection request while already connected");
 			return;
 		}
 
 		if (connectionTask != null && connectionTask.getStatus()==AsyncTask.Status.RUNNING){
-			Log.i(BMX_BLUETOOTH,"Connection request while attempting connection");
+			Log.i(BluetoothSerial.class.getName(),"Connection request while attempting connection");
 			return;
 		}
 
@@ -152,7 +151,7 @@ public class BluetoothSerial {
 
 						for (BluetoothDevice device : pairedDevices) {
 							if (device.getName().startsWith(devicePrefix)){
-								Log.i(BMX_BLUETOOTH, attemptCounter + ": Attempting connection to " + device.getName());
+								Log.i(BluetoothSerial.class.getName(), attemptCounter + ": Attempting connection to " + device.getName());
 
 								try {
 									
@@ -170,14 +169,14 @@ public class BluetoothSerial {
 									serialOutputStream = serialSocket.getOutputStream();
 
 									connected = true;
-									Log.i(BMX_BLUETOOTH,"Connected to " + device.getName());
+									Log.i(BluetoothSerial.class.getName(),"Connected to " + device.getName());
 
 									return device;
 								} catch (Exception e) {
 									serialSocket = null;
 									serialInputStream=null;
 									serialOutputStream=null;
-									Log.i(BMX_BLUETOOTH, e.getMessage());
+									Log.i(BluetoothSerial.class.getName(), e.getMessage());
 								}
 							}
 						}
@@ -193,7 +192,7 @@ public class BluetoothSerial {
 						}
 					}
 
-					Log.i(BMX_BLUETOOTH, "Stopping connection attempts");
+					Log.i(BluetoothSerial.class.getName(), "Stopping connection attempts");
 					
 					Intent intent = new Intent(BLUETOOTH_FAILED);
 					LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
@@ -285,7 +284,7 @@ public class BluetoothSerial {
 		int bufferSize = 0;
 
 		public void run() {
-			Log.i("serialReader", "Starting serial loop");
+			Log.i(BluetoothSerial.class.getName(), "Starting serial loop");
 			while (!isInterrupted()) {
 				try {
 
@@ -323,10 +322,10 @@ public class BluetoothSerial {
 						}
 					}
 				} catch (Exception e) {
-					Log.e(BMX_BLUETOOTH, "Error reading serial data", e);
+					Log.e(BluetoothSerial.class.getName(), "Error reading serial data", e);
 				}
 			}
-			Log.i(BMX_BLUETOOTH, "Shutting serial loop");
+			Log.i(BluetoothSerial.class.getName(), "Shutting serial loop");
 		}
 	};
 	
@@ -356,22 +355,22 @@ public class BluetoothSerial {
 		try {
 			serialInputStream.close();
 		} catch (Exception e) {
-			Log.e(BMX_BLUETOOTH, "Failed releasing inputstream connection");
+			Log.e(BluetoothSerial.class.getName(), "Failed releasing inputstream connection");
 		}
 
 		try {
 			serialOutputStream.close();
 		} catch (Exception e) {
-			Log.e(BMX_BLUETOOTH, "Failed releasing outputstream connection");
+			Log.e(BluetoothSerial.class.getName(), "Failed releasing outputstream connection");
 		}
 
 		try {
 			serialSocket.close();
 		} catch (Exception e) {
-			Log.e(BMX_BLUETOOTH, "Failed closing socket");
+			Log.e(BluetoothSerial.class.getName(), "Failed closing socket");
 		}
 
-		Log.i(BMX_BLUETOOTH, "Released bluetooth connections");
+		Log.i(BluetoothSerial.class.getName(), "Released bluetooth connections");
 		
 	}
 

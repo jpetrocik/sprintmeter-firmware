@@ -1,6 +1,5 @@
 package com.bmxgates.logger;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,18 +12,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.bmxgates.logger.data.SprintDatabaseHelper;
 import com.bmxgates.logger.data.SprintManager;
 
 public abstract class AbstractSprintActivity extends FragmentActivity  {
-	protected final static String BMX_MAIN_ACTIVITY = "BMXMainActivity";
 
 	/**
-	 * Checksum is sent with each split from SprintLogger.  Uused to ensure
+	 * Checksum is sent with each split from SprintLogger.  Used to ensure
 	 * no data was missed
 	 */
 	long validateChecksum;
@@ -35,23 +30,16 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	long lastMessageTime;
 
 	/**
-	 * Indicates a checksum error occured
+	 * Indicates a checksum error occurred
 	 */
 	boolean checksumError= false;
 	
-	int goButtonId, connectButtonId, layoutId;
-	
-	Dialog dialog;
-
 	Handler serialHandler;
 	
 	BMXSprintApplication application;
 	
-	Button goButton, connectButton;
-
 	SprintManager sprintManager;
-	
-	
+
 	private BroadcastReceiver bluetoothStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -66,6 +54,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		}
 	};
 
+
 	private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -76,10 +65,14 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		}
 	};
 
+	private void onDatabaseOpened() {
+		if (sprintManager != null)
+			sprintManager.setDatabase(application.getDatabase());
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(layoutId);
 
 		application = (BMXSprintApplication) getApplication();
 
@@ -91,30 +84,9 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 			}
 		});
 		
-		// hide goButton until connection is established
-		goButton = (Button) findViewById(goButtonId);
-
-		// disable button until connected or connection fails
-		connectButton = (Button) findViewById(connectButtonId);
-		connectButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				connectionLost();
-				application.reconnect();
-			}
-		});
-
-		//decide which button to show initially
-		if (application.isConnected()) {
-			connectButton.setVisibility(View.GONE);
-		} else {
-			goButton.setVisibility(View.GONE);
-			connectButton.setEnabled(false);
-		}
 	}
 
-
-	protected boolean doHandleMessage(Message msg){
+	final boolean doHandleMessage(Message msg){
 		lastMessageTime = System.currentTimeMillis();
 
 		/**
@@ -127,20 +99,22 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		}
 
 //		validateChecksum(msg);
-		
-		return false;
+
+		return processSplit(msg);
 	}
 
-	protected void onDatabaseOpened(){
+	protected abstract boolean processSplit(Message msg);
+
+	final protected void createSprintManager(SprintManager.Type type){
+		sprintManager = new SprintManager(type);
 		sprintManager.setDatabase(application.getDatabase());
+
 	}
 	
 	protected void readySprint(){
 		validateChecksum = -1;
 		checksumError = false;
 	}
-	
-	protected abstract void stopSprint();
 	
 	@Override
 	protected void onPause() {
@@ -201,45 +175,6 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	}
 
 
-	/**
-	 * Perform all activity required when connection restored
-	 */
-	protected void connectionRestored() {
-		Log.i(BMX_MAIN_ACTIVITY, "Connection restored");
-
-		// toggle buttons, this saves existing state of goButton
-		// so when restored button is in last know state
-		goButton.setVisibility(View.VISIBLE);
-		connectButton.setVisibility(View.GONE);
-
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
-	}
-
-	protected void connectionLost() {
-		Log.i(BMX_MAIN_ACTIVITY, "Connection lost");
-
-		goButton.setVisibility(View.GONE);
-		connectButton.setVisibility(View.VISIBLE);
-		connectButton.setText("Connecting...");
-		connectButton.setEnabled(false);
-	}
-
-	protected void connectionFailed() {
-		Log.i(BMX_MAIN_ACTIVITY, "Connection failed");
-
-		goButton.setVisibility(View.GONE);
-		connectButton.setText("Reconnect");
-		connectButton.setEnabled(true);
-
-		if (dialog != null) {
-			dialog.dismiss();
-			dialog = null;
-		}
-	}
-	
 	/*
 	 * validateChecksum ensures we didn't miss a message.
 	 * The validateChecksum + split = checksum
@@ -248,7 +183,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		
 		int split = msg.arg1;
 
-		Log.d("BMXLogger", String.valueOf(split));
+		Log.d(AbstractSprintActivity.class.getName(), String.valueOf(split));
 		
 		long checksum = msg.getData().getLong("checksum");
 		if (validateChecksum  == -1) {
@@ -259,5 +194,12 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		
 		checksumError = validateChecksum-checksum != 0;
 	}
+
+	protected abstract void connectionFailed();
+
+	protected abstract void connectionLost();
+
+	protected abstract void connectionRestored();
+
 
 }

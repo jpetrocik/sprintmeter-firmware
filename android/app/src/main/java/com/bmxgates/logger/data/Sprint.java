@@ -1,5 +1,7 @@
 package com.bmxgates.logger.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,10 @@ public class Sprint {
 	public Split addSplitTime(long splitTime, int splitDistance) {
 		distance += splitDistance;
 		time += splitTime;
-		speed = (splitTime) / splitDistance;
+
+		//recalculate only if there is a split
+		if (splitTime > 0)
+			speed = splitDistance / (double)splitTime;
 
 		Split split = new Split(distance, time, speed);
 		addSplit(split);
@@ -53,6 +58,7 @@ public class Sprint {
 	}
 
 	public void setValid(boolean valid) {
+		Log.i(Sprint.class.getName(), "Sprint determined to be " + (valid?"valid":"invalid"));
 		this.valid = valid;
 	}
 
