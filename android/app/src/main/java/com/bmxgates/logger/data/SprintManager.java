@@ -10,6 +10,9 @@ import com.bmxgates.logger.data.Sprint.Split;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.OptionalLong;
+
 public class SprintManager {
 
 	public enum Mode {STOPPED, READY, SPRINTING}
@@ -213,33 +216,23 @@ public class SprintManager {
 		return best;
 	}
 
-	public boolean isBestTime() {
-		double currentTime = currentSprint.getTime();
-		for (Sprint sprint : sprintHistory) {
-			if (sprint == currentSprint)
-				continue;
+	public long bestTime() {
+		OptionalLong bestTime = sprintHistory.stream().mapToLong(s -> s.getTime()).min();
+		if (bestTime.isPresent())
+			return bestTime.getAsLong();
 
-			if (sprint.getTime() < currentTime) {
-				return false;
-			}
-		}
-
-		return true;
+		return 0L;
 	}
 
-	public boolean isMaxSpeed() {
-		double currentMaxSpeed = currentSprint.getMaxSpeed();
-		for (Sprint sprint : sprintHistory) {
-			if (sprint == currentSprint)
-				continue;
+	public double bestSpeed() {
+		OptionalDouble maxSpeed = sprintHistory.stream().mapToDouble(s -> s.getMaxSpeed()).max();
+		if (maxSpeed.isPresent())
+			return maxSpeed.getAsDouble();
 
-			if (sprint.getMaxSpeed() > currentMaxSpeed) {
-				return false;
-			}
-		}
-
-		return true;
+		return 0.0;
 	}
+
+
 
 	public int totalSprints() {
 		return sprintHistory.size();

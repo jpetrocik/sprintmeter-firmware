@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.bmxgates.logger.data.Sprint.Split;
 import com.bmxgates.logger.data.SprintManager;
@@ -22,6 +23,10 @@ public class SprintActivity extends AbstractSprintActivity {
 
 	Button connectButton;
 
+	TextView diffTimeView;
+
+	TextView diffSpeedView;
+
 	SprintGraphFragment sprintGraph;
 
 	SpeedometerFragment speedometerView;
@@ -37,6 +42,9 @@ public class SprintActivity extends AbstractSprintActivity {
 		speedometerView.show20Time(false);
 		
 		sprintGraph = (SprintGraphFragment) getSupportFragmentManager().findFragmentById(R.id.sprint_speed_graph);
+
+		diffTimeView = (TextView) findViewById(R.id.diff_view);
+		diffSpeedView = (TextView) findViewById(R.id.diff_spd_view);
 
 		// hide goButton until connection is established
 		goButton = (Button) findViewById(R.id.sprint_go_button);
@@ -140,11 +148,15 @@ public class SprintActivity extends AbstractSprintActivity {
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
-		if(sprintManager.isBestTime()) {
+		long diffTime =  sprintManager.getTime() - sprintManager.bestTime();
+		diffTimeView.setText(Formater.time(diffTime, false));
+		if (diffTime == 0 ) {
 			speedometerView.setBestTime(true);
 		}
 
-		if(sprintManager.isMaxSpeed()) {
+		double diffSpeed = sprintManager.bestSpeed() - sprintManager.getMaxSpeed() ;
+		diffSpeedView.setText(Formater.speed(diffSpeed));
+		if (diffSpeed == 0) {
 			speedometerView.setBestMaxSpeed(true);
 		}
 

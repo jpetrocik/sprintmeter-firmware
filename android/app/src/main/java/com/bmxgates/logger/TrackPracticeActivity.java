@@ -226,11 +226,13 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
-		if(sprintManager.isBestTime()) {
+		double bestTime = sprintManager.bestTime();
+		if (bestTime >= sprintManager.getTime()) {
 			speedometerView.setBestTime(true);
 		}
 
-		if(sprintManager.isMaxSpeed()) {
+		double maxSpeed = sprintManager.bestSpeed();
+		if (maxSpeed <= sprintManager.getMaxSpeed()) {
 			speedometerView.setBestMaxSpeed(true);
 		}
 

@@ -65,8 +65,8 @@ public class SprintGraphFragment extends Fragment {
 
 		XYMultipleSeriesRenderer mSeriesRender = new XYMultipleSeriesRenderer();
 		mSeriesRender.addSeriesRenderer(splitRender);
-		// mSeriesRender.setShowAxes(false);
-		// mSeriesRender.setShowGrid(false);
+		mSeriesRender.setShowAxes(false);
+		mSeriesRender.setShowGrid(false);
 		mSeriesRender.setShowLabels(false);
 		mSeriesRender.setZoomEnabled(true, false);
 		mSeriesRender.setPanEnabled(true, false);

@@ -28,4 +28,5 @@ dependencies {
     implementation files('libs/achartengine-1.1.0.jar')
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:1.10.19'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }

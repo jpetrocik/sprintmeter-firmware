@@ -20,7 +20,7 @@
     <color name="GREEN_LIGHT">#228b22</color>
     <color name="RED_LIGHT">#ed0000</color>
     <color name="YELLOW_LIGHT">#ffff00</color>
-    <color name="LCD_TEXT">#eFeFeF</color>
+    <color name="LCD_TEXT">#EFEFEF</color>
     <color name="Color1">#5fafd7</color>
     <color name="LIGHT_GRAY">#dfdfdf</color>
     <color name="DARK_GRAY">#5c5d62</color>
