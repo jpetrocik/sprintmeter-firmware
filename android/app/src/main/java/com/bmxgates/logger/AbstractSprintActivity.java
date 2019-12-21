@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,7 +21,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	 * Checksum is sent with each split from SprintLogger.  Used to ensure
 	 * no data was missed
 	 */
-	long validateChecksum;
+	int prevCheckSum = -1;
 
 	/**
 	 * The last time a message was received
@@ -32,7 +31,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	/**
 	 * Indicates a checksum error occurred
 	 */
-	boolean checksumError= false;
+	boolean checkSumError = false;
 	
 	Handler serialHandler;
 	
@@ -98,7 +97,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 			return true;
 		}
 
-//		validateChecksum(msg);
+		validateChecksum(msg);
 
 		return processSplit(msg);
 	}
@@ -112,8 +111,8 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	}
 	
 	protected void readySprint(){
-		validateChecksum = -1;
-		checksumError = false;
+		prevCheckSum = -1;
+		checkSumError = false;
 	}
 	
 	@Override
@@ -179,20 +178,20 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	 * validateChecksum ensures we didn't miss a message.
 	 * The validateChecksum + split = checksum
 	 */
-	private void validateChecksum(Message msg){
-		
-		int split = msg.arg1;
+	void validateChecksum(Message msg){
 
-		Log.d(AbstractSprintActivity.class.getName(), String.valueOf(split));
-		
-		long checksum = msg.getData().getLong("checksum");
-		if (validateChecksum  == -1) {
-			validateChecksum = checksum;
-		} else {
-			validateChecksum += split;
+		int checkSum = msg.arg2;
+
+		//checkSum == 0 to prevent devide by errror when rolling over
+		if (prevCheckSum  == -1 || checkSum == 0) {
+			prevCheckSum = checkSum;
+			checkSumError = false;
+			return;
 		}
-		
-		checksumError = validateChecksum-checksum != 0;
+
+		checkSumError = ((checkSum % prevCheckSum ) != 1);
+
+		prevCheckSum = checkSum;
 	}
 
 	protected abstract void connectionFailed();

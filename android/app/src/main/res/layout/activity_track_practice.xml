@@ -73,6 +73,18 @@
             android:text="Diff"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/speedLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/sub_left_bottom_border"
+            android:gravity="right"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Speed"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <ListView

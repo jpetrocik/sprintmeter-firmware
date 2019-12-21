@@ -60,7 +60,9 @@ public class SpeedometerFragment extends Fragment {
 		setDistance(0);
 		setMaxSpeed(0);
 		set20MphTime(-1);
-		setError(false);
+
+		clockView.setTextColor(getResources().getColor(color.LCD_TEXT));
+		maxView.setTextColor(getResources().getColor(color.LCD_TEXT));
 	}
 
 	public void set(double speed, long distance, long time) {
@@ -123,21 +125,15 @@ public class SpeedometerFragment extends Fragment {
 		}
 	}
 
-//	public void add(int wheelSize, int split) {
-//
-//		time += split;
-//		distance += wheelSize;
-//		speed = wheelSize / (double) split;
-//		set(speed, distance, time);
-//
-//	}
-	
-	public void setError(boolean error){
-		if (error){
+	public void setError(){
 			clockView.setTextColor(Color.RED);
-		} else {
-			clockView.setTextColor(color.LCD_TEXT);
-			
-		}
+	}
+
+	public void setBestTime(boolean b) {
+		clockView.setTextColor(Color.GREEN);
+	}
+
+	public void setBestMaxSpeed(boolean b) {
+		clockView.setTextColor(Color.GREEN);
 	}
 }

@@ -137,6 +137,11 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		});
 
 		TrackLocator.obtainLocation(this, this);
+
+		//load settings
+		autoStop = SettingsActivity.getAutoStop(this);
+		marks = SettingsActivity.getSplits(this);
+		wheelSize = SettingsActivity.getWheelSize(this);
 	}
 
 	protected void loadSprint(int index) {
@@ -146,6 +151,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
+
 		sprintCountView.setText("Sprint #" + sprintNum);
 		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
 
@@ -219,6 +225,14 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
+
+		if(sprintManager.isBestTime()) {
+			speedometerView.setBestTime(true);
+		}
+
+		if(sprintManager.isMaxSpeed()) {
+			speedometerView.setBestMaxSpeed(true);
+		}
 
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");
@@ -338,8 +352,8 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	 */
 	protected boolean processSplit(Message msg) {
 
-		if (checksumError)
-			speedometerView.setError(true);
+		if (checkSumError)
+			speedometerView.setError();
 
 //		Log.v(TrackPracticeActivity.class.getName(), "Split: " + msg.arg1);
 

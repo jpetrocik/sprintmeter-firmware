@@ -17,6 +17,7 @@ public class BMXSprintApplication extends Application {
 
 	private static final int TOTAL_MESSAGE_SIZE = 9;
 	private static final int SPLIT_START_BYTE = 3;
+	private static final int CHECKSUM_START_BYTE = 7;
 
 	BluetoothSerial bluetoothSerial;
 
@@ -59,12 +60,14 @@ public class BMXSprintApplication extends Application {
 			if ( buffer[i] == 'B' && buffer[i+1] == 'M' && buffer[i+2] == 'X') {
 
 				try {
-					int split = (ui(buffer[i+SPLIT_START_BYTE]) << 24) | (ui(buffer[i+SPLIT_START_BYTE+1]) << 16) | (ui(buffer[i+SPLIT_START_BYTE+2]) << 8) | (ui(buffer[i+SPLIT_START_BYTE]));
+					int split = (ui(buffer[i+SPLIT_START_BYTE]) << 24) | (ui(buffer[i+SPLIT_START_BYTE+1]) << 16) | (ui(buffer[i+SPLIT_START_BYTE+2]) << 8) | (ui(buffer[i+SPLIT_START_BYTE+3]));
+					int checksum = (ui(buffer[i+CHECKSUM_START_BYTE]) << 8) | (ui(buffer[i+CHECKSUM_START_BYTE+1]));
 
 //					Log.v(BMXSprintApplication.class.getName(), "Split: " + split);
 
 					Message message = serialHandler.obtainMessage();
 					message.arg1 = split;
+					message.arg2 = checksum;
 
 					serialHandler.sendMessage(message);
 
@@ -128,12 +131,13 @@ public class BMXSprintApplication extends Application {
 	}
 
 
-	public static long ul(byte b){
+	private static long ul(byte b){
 		return (long) (b & 0xff);
 	}
 
-	public static int ui(byte b){
+	private static int ui(byte b){
 		return (int) (b & 0xff);
 	}
+
 
 }

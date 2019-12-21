@@ -95,8 +95,8 @@ public class SprintActivity extends AbstractSprintActivity {
 	@Override
 	protected boolean processSplit(Message msg){
 
-		if (checksumError)
-			speedometerView.setError(true);
+		if (checkSumError)
+			speedometerView.setError();
 
 		//ignore all splits until runup is exhausted
 		if (runup > 0){
@@ -129,6 +129,8 @@ public class SprintActivity extends AbstractSprintActivity {
 			Split split = sprintManager.calculateApproximateSplit(sprintDistance);
 			speedometerView.set(-1, split.distance, split.time);
 
+			sprintGraph.renderChart();
+
 			stopSprint();
 		}
 
@@ -137,6 +139,14 @@ public class SprintActivity extends AbstractSprintActivity {
 
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
+
+		if(sprintManager.isBestTime()) {
+			speedometerView.setBestTime(true);
+		}
+
+		if(sprintManager.isMaxSpeed()) {
+			speedometerView.setBestMaxSpeed(true);
+		}
 
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");

@@ -61,6 +61,7 @@ public class SplitAdapter extends BaseAdapter {
 			viewHolder.diff = (TextView) newView.findViewById(R.id.diffItemView);
 			viewHolder.distance = (TextView) newView.findViewById(R.id.dstItemView);
 			viewHolder.time = (TextView) newView.findViewById(R.id.splitItemView);
+			viewHolder.speed = (TextView) newView.findViewById(R.id.speedItemView);
 
 			convertView = newView;
 		} else {
@@ -72,12 +73,13 @@ public class SplitAdapter extends BaseAdapter {
 		viewHolder.diff.setText(Formater.time(  split.time - bestSplit.time, false));
 		viewHolder.distance.setText(Formater.distance(split.distance));
 		viewHolder.time.setText(Formater.time(split.time, true));
+		viewHolder.speed.setText(Formater.speed(split.speed));
 
 		return convertView;
 	}
 
 	public static class ViewHolder {
-		TextView distance, time, diff;
+		TextView distance, time, diff, speed;
 	}
 	
 

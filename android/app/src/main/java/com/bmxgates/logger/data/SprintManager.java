@@ -55,7 +55,7 @@ public class SprintManager {
 		
 		long currentSprintId = -1;
 		long currentTime = -1;
-		int currentSpeed = -1;
+		double currentSpeed = -1;
 		int currentDistance = -1;
 		
 		Sprint sprint = null;
@@ -71,7 +71,7 @@ public class SprintManager {
 
 			currentTime = results.getLong(timeIndex);
 			currentDistance = results.getInt(distanceIndex);
-			currentSpeed = results.getInt(speedIndex);
+			currentSpeed = results.getDouble(speedIndex);
 
 			sprint.addSplit(new Split(currentDistance, currentTime, currentSpeed));
 		}
@@ -211,6 +211,34 @@ public class SprintManager {
 		}
 
 		return best;
+	}
+
+	public boolean isBestTime() {
+		double currentTime = currentSprint.getTime();
+		for (Sprint sprint : sprintHistory) {
+			if (sprint == currentSprint)
+				continue;
+
+			if (sprint.getTime() < currentTime) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public boolean isMaxSpeed() {
+		double currentMaxSpeed = currentSprint.getMaxSpeed();
+		for (Sprint sprint : sprintHistory) {
+			if (sprint == currentSprint)
+				continue;
+
+			if (sprint.getMaxSpeed() > currentMaxSpeed) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public int totalSprints() {

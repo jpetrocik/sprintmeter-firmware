@@ -24,16 +24,18 @@
 #define BT_ENABLE 7
 #define RED_LED  A0
 
-#define SLEEP 300000000
+#define SLEEP 300000000L
 #define DATA_BUFFER 1500 //about 1000' of buffered data
 
 unsigned long previousTriggerTime = 0;
+unsigned int seqChecksum = 0;
 volatile unsigned long triggeredTime = 0;
 volatile int triggered = false;
+volatile int error = false;
 
 void tick();
 
-Ticker ledTicker(tick, 500); 
+Ticker ledTicker(tick, 500);
 
 void setup() {
   Serial.begin(115200);
@@ -72,23 +74,30 @@ void tick() {
 
 void loop() {
   ledTicker.update();
-  
+
   int btConnected = digitalRead(STATE);
   if (!btConnected && ledTicker.state() == STOPPED) {
-      ledTicker.start();
+    ledTicker.start();
   } else if (btConnected) {
     ledTicker.stop();
     digitalWrite(RED_LED, HIGH);
   }
-  
+
   //check for new data
   if (triggered) {
     //calculate current split time
     unsigned long split = triggeredTime - previousTriggerTime;
+    seqChecksum++;
 
     //save previous trigger time to calcuate split next trigger
     previousTriggerTime = triggeredTime;
 
+    //TODO Improve error handling
+    if (error) {
+      seqChecksum++;
+      error = false;
+    }
+    
     if (btConnected) {
 
       //sends split and seqCheck
@@ -98,45 +107,52 @@ void loop() {
       Serial.write(split >> 16);
       Serial.write(split >> 8);
       Serial.write(split);
-      Serial.write(13);
-      Serial.write(10);
-      
+      Serial.write(seqChecksum >> 8);
+      Serial.write(seqChecksum);
+
     }
     triggered = false;
   }
 
 #ifdef SLEEP_ENABLED
-    //goto sleep after long delay
-    if (micros() - triggeredTime > SLEEP){
-      digitalWrite(BT_ENABLE, LOW);
-      digitalWrite(RED_LED, LOW);
-      ledTicker.stop();
+  //goto sleep after long delay
+  long lastRead = micros() - triggeredTime;
+  if ( lastRead > SLEEP) {
+    ledTicker.stop();
 
-      //remove current interrupt, sensorRead_isr()
-      detachInterrupt(1);
+    digitalWrite(BT_ENABLE, LOW);
+    digitalWrite(RED_LED, LOW);
 
-      //disable ADC
-      ADCSRA = 0;
-      
-      set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-      sleep_enable();
+    //remove current interrupt, sensorRead_isr()
+    detachInterrupt(1);
 
-      //setup new interrupt, wake_isr()
-      noInterrupts();
+    //disable ADC
+    ADCSRA = 0;
 
-      attachInterrupt(1, wake_isr, HIGH);
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    sleep_enable();
 
-      interrupts();
-      sleep_cpu();
-    }
+    //setup new interrupt, wake_isr()
+    noInterrupts();
+
+    attachInterrupt(1, wake_isr, HIGH);
+
+    interrupts();
+    sleep_cpu();
+  }
 #endif
-    
+
 }
 
 /*
    Triggered by magnet to record time
 */
 void sensorRead_isr() {
+  if (triggered) {
+    error = true;
+    return;
+  }
+
   triggeredTime = micros();
   triggered = true;
 }
@@ -149,7 +165,7 @@ void wake_isr()
 {
   sleep_disable();
   detachInterrupt(1);
-  
+
   digitalWrite(BT_ENABLE, HIGH);
   digitalWrite(RED_LED, HIGH);
 

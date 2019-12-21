@@ -22,11 +22,13 @@ public class SprintGraphFragment extends Fragment {
 
 	XYSeries splits;
 
-	double minSpeed, maxSpeed;
+	double minSpeed = Integer.MAX_VALUE, maxSpeed = Integer.MIN_VALUE;
+
+	View rootView;
 
 	GraphicalView graphicalView;
 
-	XYMultipleSeriesRenderer mSeriesRender;
+	LinearLayout chartContainer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +37,16 @@ public class SprintGraphFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_sprint_graph, container, false);
+		rootView = inflater.inflate(R.layout.fragment_sprint_graph, container, false);
 
 		splits = new XYSeries("Splits");
+
+		chartContainer = (LinearLayout) rootView.findViewById(R.id.chartContainer);
+
+		return rootView;
+	}
+
+	public void renderChart() {
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		dataset.addSeries(splits);
@@ -45,23 +54,22 @@ public class SprintGraphFragment extends Fragment {
 		XYSeriesRenderer splitRender = new XYSeriesRenderer();
 		splitRender.setShowLegendItem(false);
 		splitRender.setDisplayChartValues(true);
-		splitRender.setChartValuesTextSize(16);
+		splitRender.setChartValuesTextSize(24);
 
-		mSeriesRender = new XYMultipleSeriesRenderer();
+		XYMultipleSeriesRenderer mSeriesRender = new XYMultipleSeriesRenderer();
 		mSeriesRender.addSeriesRenderer(splitRender);
 		// mSeriesRender.setShowAxes(false);
 		// mSeriesRender.setShowGrid(false);
 		mSeriesRender.setShowLabels(false);
-		mSeriesRender.setZoomEnabled(false, false);
-		mSeriesRender.setPanEnabled(false, false);
-		mSeriesRender.setYAxisMin(15);
-		mSeriesRender.setYAxisMax(35);
+		mSeriesRender.setZoomEnabled(true, false);
+		mSeriesRender.setPanEnabled(true, false);
+		mSeriesRender.setYAxisMin(minSpeed-5);
+		mSeriesRender.setYAxisMax(maxSpeed+5);
 
 		graphicalView = ChartFactory.getLineChartView(getActivity(), dataset, mSeriesRender);
 		graphicalView.setBackgroundColor(Color.BLACK);
-		LinearLayout chartContainer = (LinearLayout) rootView.findViewById(R.id.chartContainer);
 		chartContainer.addView(graphicalView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		return rootView;
+		graphicalView.repaint();
 	}
 
 	public void addSplit(Split split) {
@@ -70,24 +78,23 @@ public class SprintGraphFragment extends Fragment {
 
 	public void addSplit(long distance, double speed) {
 
-		if (speed < minSpeed) {
-			minSpeed = speed;
-			mSeriesRender.setYAxisMin(minSpeed * Formater.SPEED_CONVERSION - 1);
-		}
-
-		if (speed > maxSpeed) {
-			maxSpeed = speed;
-			mSeriesRender.setYAxisMax(maxSpeed * Formater.SPEED_CONVERSION + 1);
-		}
-
 		double userSpeed = speed * Formater.SPEED_CONVERSION;
-		splits.add(distance, (double) (Math.round(userSpeed * 100.0) / 100.0));
-		graphicalView.repaint();
+		userSpeed = (double) (Math.round(userSpeed * 100.0) / 100.0);
+		if (userSpeed < minSpeed) {
+			minSpeed = userSpeed;
+		}
+
+		if (userSpeed > maxSpeed) {
+			maxSpeed = userSpeed;
+		}
+
+		splits.add(distance, userSpeed);
+
 	}
 
 	public void reset() {
-		splits.clear();
-		graphicalView.repaint();
+		splits = new XYSeries("Splits");
+		chartContainer.removeView(graphicalView);
 	}
 
 }
