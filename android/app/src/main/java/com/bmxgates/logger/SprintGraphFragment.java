@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bmxgates.logger.data.Sprint.Split;
+import com.google.common.collect.EvictingQueue;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -29,6 +30,12 @@ public class SprintGraphFragment extends Fragment {
 	GraphicalView graphicalView;
 
 	LinearLayout chartContainer;
+
+	EvictingQueue<Double> smoothAvg;
+
+	public SprintGraphFragment() {
+		smoothAvg = EvictingQueue.create(6);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,7 @@ public class SprintGraphFragment extends Fragment {
 
 		double userSpeed = speed * Formater.SPEED_CONVERSION;
 		userSpeed = (double) (Math.round(userSpeed * 100.0) / 100.0);
+
 		if (userSpeed < minSpeed) {
 			minSpeed = userSpeed;
 		}
@@ -88,8 +96,15 @@ public class SprintGraphFragment extends Fragment {
 			maxSpeed = userSpeed;
 		}
 
-		splits.add(distance, userSpeed);
+		double smoothedSpeed = smooth(userSpeed);
+		splits.add(distance, smoothedSpeed);
 
+	}
+
+	public double smooth(double instantSpeed) {
+		smoothAvg.add(instantSpeed);
+
+		return smoothAvg.stream().mapToDouble(Double::doubleValue).average().getAsDouble();
 	}
 
 	public void reset() {
