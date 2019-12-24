@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/sub_bottom_border"
         android:gravity="center"
-        android:text="Sprint #1"
+        android:text="Sprint #-"
         android:textStyle="bold" />
 
     <LinearLayout

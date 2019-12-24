@@ -21,7 +21,7 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/speedo_mph_20"
+            android:id="@+id/autoStopEditLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Auto Stop Distance:" />

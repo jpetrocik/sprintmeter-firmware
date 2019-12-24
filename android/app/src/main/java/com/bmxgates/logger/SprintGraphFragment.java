@@ -33,6 +33,8 @@ public class SprintGraphFragment extends Fragment {
 
 	EvictingQueue<Double> smoothAvg;
 
+	View.OnTouchListener onTouchListener;
+
 	public SprintGraphFragment() {
 		smoothAvg = EvictingQueue.create(6);
 	}
@@ -75,8 +77,15 @@ public class SprintGraphFragment extends Fragment {
 
 		graphicalView = ChartFactory.getLineChartView(getActivity(), dataset, mSeriesRender);
 		graphicalView.setBackgroundColor(Color.BLACK);
+		if (onTouchListener != null)
+			graphicalView.setOnTouchListener(onTouchListener);
 		chartContainer.addView(graphicalView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		graphicalView.repaint();
+
+	}
+
+	public void setOnTouchListener(View.OnTouchListener onTouchListner) {
+		this.onTouchListener = onTouchListner;
 	}
 
 	public void addSplit(Split split) {
@@ -86,7 +95,6 @@ public class SprintGraphFragment extends Fragment {
 	public void addSplit(long distance, double speed) {
 
 		double userSpeed = speed * Formater.SPEED_CONVERSION;
-		userSpeed = (double) (Math.round(userSpeed * 100.0) / 100.0);
 
 		if (userSpeed < minSpeed) {
 			minSpeed = userSpeed;
@@ -97,6 +105,7 @@ public class SprintGraphFragment extends Fragment {
 		}
 
 		double smoothedSpeed = smooth(userSpeed);
+		smoothedSpeed = (double) (Math.round(smoothedSpeed * 100.0) / 100.0);
 		splits.add(distance, smoothedSpeed);
 
 	}

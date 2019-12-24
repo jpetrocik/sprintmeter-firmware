@@ -142,17 +142,21 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		autoStop = SettingsActivity.getAutoStop(this);
 		marks = SettingsActivity.getSplits(this);
 		wheelSize = SettingsActivity.getWheelSize(this);
+
+		//display last sprint
+		if (sprintManager.totalSprints() > 0)
+			loadSprint(sprintManager.totalSprints()-1);
+
 	}
 
 	protected void loadSprint(int index) {
 
 		Sprint sprint = sprintManager.get(index);
-		int sprintNum = sprintManager.totalSprints() - index;
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-		sprintCountView.setText("Sprint #" + sprintNum);
+		sprintCountView.setText("Sprint #" + index+1);
 		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
 
 		sprintArrayAdatper.clear();
@@ -201,26 +205,28 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		if (track == null)
 			return;
 
-		sprintCountView.setText("Sprint #" + (sprintManager.totalSprints() + 1));
-
 		// reload settings
 		autoStop = SettingsActivity.getAutoStop(this);
 		marks = SettingsActivity.getSplits(this);
 		wheelSize = SettingsActivity.getWheelSize(this);
 
 		//start sprint manager
-		int sprint = sprintManager.ready(track.trackId);
+		sprintIndex = sprintManager.ready(track.trackId);
 
 		//update ui
 		displayLocation(track);
 		goButton.setText("Waiting....");
 		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
 		sprintArrayAdatper.clear();
-		sprintCountView.setText("Sprint #" + sprint);
-		speedometerView.reset();
+		sprintCountView.setText("Sprint #" + sprintIndex);
 
-		sprintIndex = 0;
+		reset();
+
 		nextMark = 0;
+	}
+
+	protected void reset() {
+		speedometerView.reset();
 	}
 
 	protected void stopSprint() {
@@ -249,6 +255,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 		if (sprintManager.getDistance() < 18288) {
 			sprintManager.setValid(false);
+			reset();
 			return;
 		}
 
@@ -344,6 +351,9 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		}
 		sprintManager.setValid(valid);
 
+		if (!valid) {
+			reset();
+		}
 	}
 
 	/**

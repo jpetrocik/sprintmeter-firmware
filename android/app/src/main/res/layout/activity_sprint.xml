@@ -75,8 +75,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/diff_spd_label"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/sprint_sprint_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sub_bottom_border"
+        android:gravity="center"
+        android:text="Sprint #-"
+        android:textStyle="bold" />
 
     <fragment
         android:id="@+id/sprint_speed_graph"

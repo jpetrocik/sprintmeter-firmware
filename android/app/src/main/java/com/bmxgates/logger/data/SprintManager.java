@@ -44,7 +44,7 @@ public class SprintManager {
 		Cursor results = database.query(SprintDatabaseHelper.TABLE_SPRINT_TIMES, 
 				SprintDatabaseHelper.SPRINT_TIMES_COLUMNS, 
 				SprintDatabaseHelper.COLUMN_SPRINT_ID + " > ? and " + SprintDatabaseHelper.COLUMN_SPRINT_TYPE + " = ?", 
-				new String[] {String.valueOf(System.currentTimeMillis()/86400000), type.toString()}, 
+				new String[] {String.valueOf(System.currentTimeMillis()/3600000), type.toString()},
 				null, 
 				null, 
 				SprintDatabaseHelper.COLUMN_SPRINT_ID + " desc, " + SprintDatabaseHelper.COLUMN_DISTANCE + " asc");

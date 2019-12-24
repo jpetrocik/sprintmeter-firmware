@@ -60,7 +60,8 @@ public class TrackDetailFragment extends Fragment {
 			((EditText) rootView.findViewById(R.id.autoStopEditText)).setText(String.valueOf(track.autoStop));
 		}
 
-		((SupportMapFragment) this.getFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
+		SupportMapFragment supportMapFragment = ((SupportMapFragment) this.getFragmentManager().findFragmentById(R.id.map));
+		supportMapFragment.getMapAsync(new OnMapReadyCallback() {
 			@Override
 			public void onMapReady(GoogleMap googleMap) {
 				mMap = googleMap;

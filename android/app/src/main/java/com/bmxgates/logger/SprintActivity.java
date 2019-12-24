@@ -8,8 +8,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bmxgates.logger.data.Sprint;
 import com.bmxgates.logger.data.Sprint.Split;
 import com.bmxgates.logger.data.SprintManager;
+import com.bmxgates.ui.SwipeListener;
 
 public class SprintActivity extends AbstractSprintActivity {
 
@@ -27,9 +29,13 @@ public class SprintActivity extends AbstractSprintActivity {
 
 	TextView diffSpeedView;
 
+	TextView sprintCountView;
+
 	SprintGraphFragment sprintGraph;
 
 	SpeedometerFragment speedometerView;
+
+	int sprintIndex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +46,12 @@ public class SprintActivity extends AbstractSprintActivity {
 
 		speedometerView = (SpeedometerFragment) getSupportFragmentManager().findFragmentById(R.id.sprint_speedometer);
 		speedometerView.show20Time(false);
-		
+
 		sprintGraph = (SprintGraphFragment) getSupportFragmentManager().findFragmentById(R.id.sprint_speed_graph);
 
 		diffTimeView = (TextView) findViewById(R.id.diff_view);
 		diffSpeedView = (TextView) findViewById(R.id.diff_spd_view);
+		sprintCountView = (TextView) findViewById(R.id.sprint_sprint_count);
 
 		// hide goButton until connection is established
 		goButton = (Button) findViewById(R.id.sprint_go_button);
@@ -78,36 +85,109 @@ public class SprintActivity extends AbstractSprintActivity {
 			}
 		});
 
-	}
+		sprintGraph.setOnTouchListener(new SwipeListener(this, new SwipeListener.Callback() {
 
-	@Override
-	protected void readySprint(){
-		super.readySprint();
+			@Override
+			public boolean swipeLeft() {
+				sprintIndex++;
+				if (sprintManager.totalSprints() > sprintIndex) {
+					loadSprint(sprintIndex);
+				} else {
+					sprintIndex--;
+				}
 
-		sprintGraph.reset();
-		
+				return true;
+			}
+
+			@Override
+			public boolean swipeRight() {
+				if (sprintIndex > 0) {
+					sprintIndex--;
+					loadSprint(sprintIndex);
+				}
+
+				return true;
+			}
+
+		}));
+
 		//load settings
 		runup = SettingsActivity.getRunupDistance(this);
 		wheelSize = SettingsActivity.getWheelSize(this);
 		sprintDistance = SettingsActivity.getSprintDistance(this);
-		
-		goButton.setText("Waiting....");
-		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
 
-		sprintManager.ready();
-		
-		speedometerView.reset();
-		speedometerView.setDistance(runup);
+		//display last sprint
+		if (sprintManager.totalSprints() > 0)
+			loadSprint(sprintManager.totalSprints()-1);
 	}
 
 	@Override
-	protected boolean processSplit(Message msg){
+	protected void readySprint() {
+		super.readySprint();
+
+		//load settings
+		runup = SettingsActivity.getRunupDistance(this);
+		wheelSize = SettingsActivity.getWheelSize(this);
+		sprintDistance = SettingsActivity.getSprintDistance(this);
+
+		goButton.setText("Waiting....");
+		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
+
+		sprintIndex = sprintManager.ready();
+		sprintCountView.setText("Sprint #" + sprintIndex);
+
+		reset();
+	}
+
+	protected void reset() {
+		diffTimeView.setText("0.00");
+		diffSpeedView.setText("00.0");
+		sprintCountView.setText(sprintManager.totalSprints());
+
+		speedometerView.reset();
+		speedometerView.setDistance(runup);
+
+		sprintGraph.reset();
+	}
+
+	protected void loadSprint(int index) {
+
+		Sprint sprint = sprintManager.get(index);
+
+		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
+		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
+
+		sprintCountView.setText("Sprint #" + index+1);
+
+
+		long diffTime = sprint.getTime() - sprintManager.bestTime();
+		diffTimeView.setText(Formater.time(diffTime, false));
+		if (diffTime == 0) {
+			speedometerView.setBestTime(true);
+		}
+
+		double diffSpeed = sprintManager.bestSpeed() - sprint.getMaxSpeed();
+		diffSpeedView.setText(Formater.speed(diffSpeed));
+		if (diffSpeed == 0) {
+			speedometerView.setBestMaxSpeed(true);
+		}
+
+		sprintGraph.reset();
+		for (Split s : sprint.getSplits()) {
+			sprintGraph.addSplit(s);
+		}
+		sprintGraph.renderChart();
+	}
+
+
+	@Override
+	protected boolean processSplit(Message msg) {
 
 		if (checkSumError)
 			speedometerView.setError();
 
 		//ignore all splits until runup is exhausted
-		if (runup > 0){
+		if (runup > 0) {
 			runup -= wheelSize;
 			speedometerView.setDistance(runup);
 			return true;
@@ -120,7 +200,7 @@ public class SprintActivity extends AbstractSprintActivity {
 
 			//the bike has moved an unknown distance, so start the sprint with a half the
 			// distance of the wheel movement between splits
-			sprintManager.addSplitTime(0, wheelSize/2);
+			sprintManager.addSplitTime(0, wheelSize / 2);
 
 			return true;
 		}
@@ -148,13 +228,13 @@ public class SprintActivity extends AbstractSprintActivity {
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
-		long diffTime =  sprintManager.getTime() - sprintManager.bestTime();
+		long diffTime = sprintManager.getTime() - sprintManager.bestTime();
 		diffTimeView.setText(Formater.time(diffTime, false));
-		if (diffTime == 0 ) {
+		if (diffTime == 0) {
 			speedometerView.setBestTime(true);
 		}
 
-		double diffSpeed = sprintManager.bestSpeed() - sprintManager.getMaxSpeed() ;
+		double diffSpeed = sprintManager.bestSpeed() - sprintManager.getMaxSpeed();
 		diffSpeedView.setText(Formater.speed(diffSpeed));
 		if (diffSpeed == 0) {
 			speedometerView.setBestMaxSpeed(true);
@@ -164,7 +244,17 @@ public class SprintActivity extends AbstractSprintActivity {
 		goButton.setText("Start");
 		speedometerView.setSpeed(-1);
 
+		validateCurrentSprint();
+
 		sprintManager.stop();
+	}
+
+	private void validateCurrentSprint() {
+		if (sprintManager.getDistance() < sprintDistance) {
+			sprintManager.setValid(false);
+			reset();
+			return;
+		}
 	}
 
 	/**
