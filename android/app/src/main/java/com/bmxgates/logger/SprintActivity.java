@@ -159,10 +159,11 @@ public class SprintActivity extends AbstractSprintActivity {
 		Sprint sprint = sprintManager.get(sprintIndex);
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
+		speedometerView.setSpeed(sprint.getAverageSpeed(), false);
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-		sprintCountView.setText("Sprint #" + (sprintIndex+1));
 
+		sprintCountView.setText("Sprint #" + (sprintIndex+1));
 
 		long diffTime = sprint.getTime() - sprintManager.bestTime();
 		diffTimeView.setText(Formater.time(diffTime, false));
@@ -217,20 +218,21 @@ public class SprintActivity extends AbstractSprintActivity {
 		int splitTime = msg.arg1;
 		Split split = sprintManager.addSplitTime(splitTime, wheelSize);
 
-		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
-		sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
-
-		//stop once sprint distance is reached
+		//stop once sprint distance is reached and recalculate stop point
 		if (sprintManager.getDistance() >= sprintDistance) {
 			Split adjustedSplit = sprintManager.calculateApproximateSplit(sprintDistance);
 
-			sprintManager.addSplit(adjustedSplit);
-			sprintManager.removeSplit(split.distance);
+			sprintManager.replaceLast(adjustedSplit);
 
-			speedometerView.set(-1, adjustedSplit.distance, adjustedSplit.time);
-			sprintGraph.renderChart();
+//			speedometerView.set(-1, adjustedSplit.distance, adjustedSplit.time);
+//			speedometerView.setSpeed(sprintManager.getAverageSpeed(), false);
+//			sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
+//			sprintGraph.renderChart();
 
 			stopSprint();
+		} else {
+			speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
+//			sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
 		}
 
 		return true;
@@ -239,27 +241,14 @@ public class SprintActivity extends AbstractSprintActivity {
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
-		long diffTime = sprintManager.getTime() - sprintManager.bestTime();
-		diffTimeView.setText(Formater.time(diffTime, false));
-		if (diffTime == 0) {
-			speedometerView.setBestTime(true);
-		}
-
-		double diffSpeed = sprintManager.bestSpeed() - sprintManager.getMaxSpeed();
-		diffSpeedView.setText(Formater.speed(diffSpeed));
-		if (diffSpeed == 0) {
-			speedometerView.setBestMaxSpeed(true);
-		}
-
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");
-		speedometerView.setSpeed(-1);
 
 		validateCurrentSprint();
 
 		sprintManager.stop();
 
-		//displays the lasr sprint, if not validate displays the last valid
+		//displays the last sprint, if not validate displays the last valid
 		//sprint
 		loadSprint(sprintManager.totalSprints()-1);
 	}

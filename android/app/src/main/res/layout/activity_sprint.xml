@@ -76,7 +76,6 @@
                 app:layout_constraintStart_toEndOf="@+id/diff_spd_label"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 

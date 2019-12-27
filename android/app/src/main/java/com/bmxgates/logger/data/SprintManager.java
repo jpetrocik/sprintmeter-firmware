@@ -170,8 +170,8 @@ public class SprintManager {
 		currentSprint.addSplit(split);
 	}
 
-	public void removeSplit(long distance) {
-		currentSprint.removeSplit(distance);
+	public void replaceLast(Split split) {
+		currentSprint.replaceLast(split);
 	}
 
 	public long getDistance() {
@@ -183,6 +183,12 @@ public class SprintManager {
 	public double getMaxSpeed() {
 		if (currentSprint != null)
 			return currentSprint.getMaxSpeed();
+		return 0;
+	}
+
+	public long getAverageSpeed(){
+		if (currentSprint != null)
+			return currentSprint.getAverageSpeed();
 		return 0;
 	}
 

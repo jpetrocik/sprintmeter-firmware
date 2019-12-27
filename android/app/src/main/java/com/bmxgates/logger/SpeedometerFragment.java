@@ -89,24 +89,30 @@ public class SpeedometerFragment extends Fragment {
 
 
 	public void setSpeed(double speed) {
+		setSpeed(speed, true);
+	}
+
+	public void setSpeed(double speed, boolean smoothing) {
 		if (speed < 0) {
 			speedView.setText("--.-");
 			speedAvg1 = 0;
 			speedAvg2 = 0;
 			speedAvg3 = 0;
 		} else {
-			speedAvg3 = speedAvg2;
-			speedAvg2 = speedAvg1;
-			speedAvg1 = speed;
+			double adjustedSpeed = speed;
+			if (smoothing) {
+				speedAvg3 = speedAvg2;
+				speedAvg2 = speedAvg1;
+				speedAvg1 = speed;
 
-			double speedAvg = (speedAvg3 + speedAvg2 + speedAvg1) / 3.0;
+				adjustedSpeed = (speedAvg3 + speedAvg2 + speedAvg1) / 3.0;
+			}
 
-			speedView.setText(Formater.speed(speedAvg));
+			speedView.setText(Formater.speed(adjustedSpeed));
 
 			if (speed > maxSpeed) {
 				setMaxSpeed(speed);
 			}
-
 		}
 	}
 

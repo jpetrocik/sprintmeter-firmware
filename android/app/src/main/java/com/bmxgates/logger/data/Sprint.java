@@ -3,7 +3,6 @@ package com.bmxgates.logger.data;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Sprint {
@@ -67,16 +66,9 @@ public class Sprint {
 		return valid;
 	}
 
-	public void removeSplit(long distance) {
-		Iterator<Split> allSplits = splits.iterator();
-
-		while (allSplits.hasNext()){
-			Split split = allSplits.next();
-			if(split.distance==distance){
-				allSplits.remove();
-				break;
-			}
-		}
+	public void replaceLast(Split split) {
+		splits.remove(splits.size()-1);
+		addSplit(split);
 	}
 
 	/**
@@ -120,6 +112,10 @@ public class Sprint {
 
 	public double getMaxSpeed() {
 		return maxSpeed;
+	}
+
+	public long getAverageSpeed() {
+		return distance/time;
 	}
 
 	public long getTime() {
