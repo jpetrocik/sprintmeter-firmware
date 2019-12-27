@@ -149,4 +149,11 @@ public class SpeedometerFragment extends Fragment {
 		else
 			maxView.setTextColor(getResources().getColor(color.LCD_TEXT));
 	}
+
+	public void setBestSpeed(boolean best) {
+		if (best)
+			speedView.setTextColor(Color.GREEN);
+		else
+			speedView.setTextColor(getResources().getColor(color.LCD_TEXT));
+	}
 }

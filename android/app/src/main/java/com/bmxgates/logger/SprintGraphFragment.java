@@ -23,8 +23,6 @@ public class SprintGraphFragment extends Fragment {
 
 	XYSeries splits;
 
-	double minSpeed = Integer.MAX_VALUE, maxSpeed = Integer.MIN_VALUE;
-
 	View rootView;
 
 	GraphicalView graphicalView;
@@ -55,14 +53,14 @@ public class SprintGraphFragment extends Fragment {
 		return rootView;
 	}
 
-	public void renderChart() {
+	public void renderChart(double maxSpeed) {
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		dataset.addSeries(splits);
 
 		XYSeriesRenderer splitRender = new XYSeriesRenderer();
 		splitRender.setShowLegendItem(false);
-		splitRender.setDisplayChartValues(true);
+		splitRender.setDisplayChartValues(false);
 		splitRender.setChartValuesTextSize(24);
 
 		XYMultipleSeriesRenderer mSeriesRender = new XYMultipleSeriesRenderer();
@@ -72,8 +70,8 @@ public class SprintGraphFragment extends Fragment {
 		mSeriesRender.setShowLabels(false);
 		mSeriesRender.setZoomEnabled(false, false);
 		mSeriesRender.setPanEnabled(false, false);
-		mSeriesRender.setYAxisMin(minSpeed-5);
-		mSeriesRender.setYAxisMax(maxSpeed+5);
+		mSeriesRender.setYAxisMin(maxSpeed-0.002235222170365);
+		mSeriesRender.setYAxisMax(maxSpeed+0.002235222170365);
 
 		graphicalView = ChartFactory.getLineChartView(getActivity(), dataset, mSeriesRender);
 		graphicalView.setBackgroundColor(Color.BLACK);
@@ -94,18 +92,10 @@ public class SprintGraphFragment extends Fragment {
 
 	public void addSplit(long distance, double speed) {
 
-		double userSpeed = speed * Formater.SPEED_CONVERSION;
+//		double userSpeed = speed * Formater.SPEED_CONVERSION;
 
-		if (userSpeed < minSpeed) {
-			minSpeed = userSpeed;
-		}
-
-		if (userSpeed > maxSpeed) {
-			maxSpeed = userSpeed;
-		}
-
-		double smoothedSpeed = smooth(userSpeed);
-		smoothedSpeed = (double) (Math.round(smoothedSpeed * 100.0) / 100.0);
+		double smoothedSpeed = smooth(speed);
+//		smoothedSpeed = (double) (Math.round(smoothedSpeed * 100.0) / 100.0);
 		splits.add(distance, smoothedSpeed);
 
 	}

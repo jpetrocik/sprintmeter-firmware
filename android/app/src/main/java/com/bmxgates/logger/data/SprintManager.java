@@ -186,7 +186,7 @@ public class SprintManager {
 		return 0;
 	}
 
-	public long getAverageSpeed(){
+	public double getAverageSpeed(){
 		if (currentSprint != null)
 			return currentSprint.getAverageSpeed();
 		return 0;

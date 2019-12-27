@@ -114,8 +114,8 @@ public class Sprint {
 		return maxSpeed;
 	}
 
-	public long getAverageSpeed() {
-		return distance/time;
+	public double getAverageSpeed() {
+		return distance/(double)time;
 	}
 
 	public long getTime() {

@@ -169,8 +169,10 @@ public class SprintActivity extends AbstractSprintActivity {
 		diffTimeView.setText(Formater.time(diffTime, false));
 		if (diffTime == 0) {
 			speedometerView.setBestTime(true);
+			speedometerView.setBestSpeed(true);
 		} else {
 			speedometerView.setBestTime(false);
+			speedometerView.setBestSpeed(false);
 		}
 
 		double diffSpeed = sprintManager.bestSpeed() - sprint.getMaxSpeed();
@@ -182,10 +184,15 @@ public class SprintActivity extends AbstractSprintActivity {
 		}
 
 		sprintGraph.reset();
+		boolean skipFirst = true;
 		for (Split s : sprint.getSplits()) {
+			if (skipFirst) {
+				skipFirst = false;
+				continue;
+			}
 			sprintGraph.addSplit(s);
 		}
-		sprintGraph.renderChart();
+		sprintGraph.renderChart(sprint.getMaxSpeed());
 	}
 
 
@@ -207,9 +214,7 @@ public class SprintActivity extends AbstractSprintActivity {
 			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 			goButton.setText("Stop");
 
-			//the bike has moved an unknown distance, so start the sprint with a half the
-			// distance of the wheel movement between splits
-			sprintManager.addSplitTime(0, wheelSize / 2);
+			sprintManager.addSplitTime(0, 1);
 
 			return true;
 		}
