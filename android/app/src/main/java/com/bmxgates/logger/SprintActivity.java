@@ -89,22 +89,14 @@ public class SprintActivity extends AbstractSprintActivity {
 
 			@Override
 			public boolean swipeLeft() {
-				sprintIndex++;
-				if (sprintManager.totalSprints() > sprintIndex) {
-					loadSprint(sprintIndex);
-				} else {
-					sprintIndex--;
-				}
+				loadSprint(--sprintIndex);
 
 				return true;
 			}
 
 			@Override
 			public boolean swipeRight() {
-				if (sprintIndex > 0) {
-					sprintIndex--;
-					loadSprint(sprintIndex);
-				}
+				loadSprint(++sprintIndex);
 
 				return true;
 			}
@@ -117,8 +109,10 @@ public class SprintActivity extends AbstractSprintActivity {
 		sprintDistance = SettingsActivity.getSprintDistance(this);
 
 		//display last sprint
-		if (sprintManager.totalSprints() > 0)
-			loadSprint(sprintManager.totalSprints()-1);
+		if (sprintManager.totalSprints() > 0){
+			loadSprint(sprintManager.totalSprints() - 1);
+
+		}
 	}
 
 	@Override
@@ -142,7 +136,7 @@ public class SprintActivity extends AbstractSprintActivity {
 	protected void reset() {
 		diffTimeView.setText("0.00");
 		diffSpeedView.setText("00.0");
-		sprintCountView.setText(sprintManager.totalSprints());
+		sprintCountView.setText("Sprint #" + sprintManager.totalSprints());
 
 		speedometerView.reset();
 		speedometerView.setDistance(runup);
@@ -151,25 +145,39 @@ public class SprintActivity extends AbstractSprintActivity {
 	}
 
 	protected void loadSprint(int index) {
+		sprintIndex = index;
 
-		Sprint sprint = sprintManager.get(index);
+		if (sprintIndex < 0) {
+			sprintIndex = 0;
+		}
+
+		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
+		if (sprintManager.totalSprints() <= sprintIndex) {
+			sprintIndex = sprintManager.totalSprints() - 1;
+		}
+
+		Sprint sprint = sprintManager.get(sprintIndex);
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-		sprintCountView.setText("Sprint #" + index+1);
+		sprintCountView.setText("Sprint #" + (sprintIndex+1));
 
 
 		long diffTime = sprint.getTime() - sprintManager.bestTime();
 		diffTimeView.setText(Formater.time(diffTime, false));
 		if (diffTime == 0) {
 			speedometerView.setBestTime(true);
+		} else {
+			speedometerView.setBestTime(false);
 		}
 
 		double diffSpeed = sprintManager.bestSpeed() - sprint.getMaxSpeed();
 		diffSpeedView.setText(Formater.speed(diffSpeed));
 		if (diffSpeed == 0) {
 			speedometerView.setBestMaxSpeed(true);
+		} else {
+			speedometerView.setBestMaxSpeed(false);
 		}
 
 		sprintGraph.reset();
@@ -207,16 +215,19 @@ public class SprintActivity extends AbstractSprintActivity {
 
 
 		int splitTime = msg.arg1;
-		sprintManager.addSplitTime(splitTime, wheelSize);
+		Split split = sprintManager.addSplitTime(splitTime, wheelSize);
 
 		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
 		sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
 
 		//stop once sprint distance is reached
 		if (sprintManager.getDistance() >= sprintDistance) {
-			Split split = sprintManager.calculateApproximateSplit(sprintDistance);
-			speedometerView.set(-1, split.distance, split.time);
+			Split adjustedSplit = sprintManager.calculateApproximateSplit(sprintDistance);
 
+			sprintManager.addSplit(adjustedSplit);
+			sprintManager.removeSplit(split.distance);
+
+			speedometerView.set(-1, adjustedSplit.distance, adjustedSplit.time);
 			sprintGraph.renderChart();
 
 			stopSprint();
@@ -247,6 +258,10 @@ public class SprintActivity extends AbstractSprintActivity {
 		validateCurrentSprint();
 
 		sprintManager.stop();
+
+		//displays the lasr sprint, if not validate displays the last valid
+		//sprint
+		loadSprint(sprintManager.totalSprints()-1);
 	}
 
 	private void validateCurrentSprint() {

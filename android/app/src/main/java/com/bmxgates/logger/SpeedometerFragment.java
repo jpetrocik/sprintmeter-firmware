@@ -129,11 +129,18 @@ public class SpeedometerFragment extends Fragment {
 			clockView.setTextColor(Color.RED);
 	}
 
-	public void setBestTime(boolean b) {
-		clockView.setTextColor(Color.GREEN);
+	public void setBestTime(boolean best) {
+		if (best)
+			clockView.setTextColor(Color.GREEN);
+		else
+			clockView.setTextColor(getResources().getColor(color.LCD_TEXT));
+
 	}
 
-	public void setBestMaxSpeed(boolean b) {
-		clockView.setTextColor(Color.GREEN);
+	public void setBestMaxSpeed(boolean best) {
+		if (best)
+			maxView.setTextColor(Color.GREEN);
+		else
+			maxView.setTextColor(getResources().getColor(color.LCD_TEXT));
 	}
 }

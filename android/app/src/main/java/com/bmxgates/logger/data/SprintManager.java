@@ -29,6 +29,8 @@ public class SprintManager {
 	
 	Type type;
 
+	long sessionWindow = 86400000l * 4l;
+
 	public SprintManager(Type type) {
 		this.type = type;
 	}
@@ -44,10 +46,10 @@ public class SprintManager {
 		Cursor results = database.query(SprintDatabaseHelper.TABLE_SPRINT_TIMES, 
 				SprintDatabaseHelper.SPRINT_TIMES_COLUMNS, 
 				SprintDatabaseHelper.COLUMN_SPRINT_ID + " > ? and " + SprintDatabaseHelper.COLUMN_SPRINT_TYPE + " = ?", 
-				new String[] {String.valueOf(System.currentTimeMillis()/3600000), type.toString()},
+				new String[] {String.valueOf(System.currentTimeMillis()-sessionWindow), type.toString()},
 				null, 
 				null, 
-				SprintDatabaseHelper.COLUMN_SPRINT_ID + " desc, " + SprintDatabaseHelper.COLUMN_DISTANCE + " asc");
+				SprintDatabaseHelper.COLUMN_SPRINT_ID + " asc, " + SprintDatabaseHelper.COLUMN_DISTANCE + " asc");
 		
 		int sprintIdIndex = results.getColumnIndex(SprintDatabaseHelper.COLUMN_SPRINT_ID);
 		int timeIndex = results.getColumnIndex(SprintDatabaseHelper.COLUMN_TIME);
@@ -83,7 +85,7 @@ public class SprintManager {
 
 	public int ready(int trackId){
 		currentSprint = new Sprint(System.currentTimeMillis(), trackId);
-		sprintHistory.add(0, currentSprint);
+		sprintHistory.add( currentSprint);
 
 		return sprintHistory.size();
 	}
@@ -92,7 +94,7 @@ public class SprintManager {
 		if (type == Type.TRACK)
 			throw new IllegalArgumentException("Track practice must have associated track");
 		currentSprint = new Sprint(System.currentTimeMillis());
-		sprintHistory.add(0, currentSprint);
+		sprintHistory.add( currentSprint);
 		
 		return sprintHistory.size();
 	}
@@ -166,6 +168,10 @@ public class SprintManager {
 			return;
 		}
 		currentSprint.addSplit(split);
+	}
+
+	public void removeSplit(long distance) {
+		currentSprint.removeSplit(distance);
 	}
 
 	public long getDistance() {

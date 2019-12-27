@@ -70,8 +70,8 @@ public class SprintGraphFragment extends Fragment {
 		mSeriesRender.setShowAxes(false);
 		mSeriesRender.setShowGrid(false);
 		mSeriesRender.setShowLabels(false);
-		mSeriesRender.setZoomEnabled(true, false);
-		mSeriesRender.setPanEnabled(true, false);
+		mSeriesRender.setZoomEnabled(false, false);
+		mSeriesRender.setPanEnabled(false, false);
 		mSeriesRender.setYAxisMin(minSpeed-5);
 		mSeriesRender.setYAxisMax(maxSpeed+5);
 

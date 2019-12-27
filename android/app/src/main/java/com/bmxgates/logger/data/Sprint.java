@@ -3,6 +3,7 @@ package com.bmxgates.logger.data;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Sprint {
@@ -66,17 +67,17 @@ public class Sprint {
 		return valid;
 	}
 
-//	public void removeSplit(long distance) {
-//		Iterator<Split> allSplits = splits.iterator();
-//
-//		while (allSplits.hasNext()){
-//			Split split = allSplits.next();
-//			if(split.distance==distance){
-//				allSplits.remove();
-//				break;
-//			}
-//		}
-//	}
+	public void removeSplit(long distance) {
+		Iterator<Split> allSplits = splits.iterator();
+
+		while (allSplits.hasNext()){
+			Split split = allSplits.next();
+			if(split.distance==distance){
+				allSplits.remove();
+				break;
+			}
+		}
+	}
 
 	/**
 	 * Finds the split for a given distance, using linear function aX+b=Y, to
