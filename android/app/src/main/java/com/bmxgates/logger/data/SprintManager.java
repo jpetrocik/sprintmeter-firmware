@@ -29,7 +29,7 @@ public class SprintManager {
 	
 	Type type;
 
-	long sessionWindow = 86400000l * 4l;
+	long sessionWindow = 86400000l / 4l;
 
 	public SprintManager(Type type) {
 		this.type = type;

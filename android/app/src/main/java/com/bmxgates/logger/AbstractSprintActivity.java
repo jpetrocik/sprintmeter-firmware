@@ -161,15 +161,15 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 			connectionLost();
 			application.reconnect();
 			return true;
+
 		case R.id.settingsMenuItem:
 			myIntent = new Intent(this, SettingsActivity.class);
 			startActivity(myIntent);
-
 			return true;
+
 		case R.id.trackMenuItem:
 			myIntent = new Intent(this, TrackListActivity.class);
 			startActivity(myIntent);
-
 			return true;
 		}
 

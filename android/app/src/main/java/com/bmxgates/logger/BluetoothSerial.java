@@ -176,7 +176,7 @@ public class BluetoothSerial {
 									serialSocket = null;
 									serialInputStream=null;
 									serialOutputStream=null;
-									Log.i(BluetoothSerial.class.getName(), e.getMessage());
+									Log.i(BluetoothSerial.class.getName(), "Failed to connect to " + device.getName(), e);
 								}
 							}
 						}
