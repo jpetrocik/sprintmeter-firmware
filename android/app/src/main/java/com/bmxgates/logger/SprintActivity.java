@@ -111,7 +111,6 @@ public class SprintActivity extends AbstractSprintActivity {
 		//display last sprint
 		if (sprintManager.totalSprints() > 0){
 			loadSprint(sprintManager.totalSprints() - 1);
-
 		}
 	}
 
@@ -145,6 +144,9 @@ public class SprintActivity extends AbstractSprintActivity {
 	}
 
 	protected void loadSprint(int index) {
+		if (sprintManager.totalSprints() == 0)
+			return;
+
 		sprintIndex = index;
 
 		if (sprintIndex < 0) {
@@ -157,31 +159,20 @@ public class SprintActivity extends AbstractSprintActivity {
 		}
 
 		Sprint sprint = sprintManager.get(sprintIndex);
+		sprintCountView.setText("Sprint #" + (sprintIndex+1));
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
 		speedometerView.setSpeed(sprint.getAverageSpeed(), false);
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-
-		sprintCountView.setText("Sprint #" + (sprintIndex+1));
-
 		long diffTime = sprint.getTime() - sprintManager.bestTime();
 		diffTimeView.setText(Formater.time(diffTime, false));
-		if (diffTime == 0) {
-			speedometerView.setBestTime(true);
-			speedometerView.setBestSpeed(true);
-		} else {
-			speedometerView.setBestTime(false);
-			speedometerView.setBestSpeed(false);
-		}
+		speedometerView.setBestTime(diffTime == 0);
+		speedometerView.setBestSpeed(diffTime == 0);
 
 		double diffSpeed = sprintManager.bestSpeed() - sprint.getMaxSpeed();
 		diffSpeedView.setText(Formater.speed(diffSpeed));
-		if (diffSpeed == 0) {
-			speedometerView.setBestMaxSpeed(true);
-		} else {
-			speedometerView.setBestMaxSpeed(false);
-		}
+		speedometerView.setBestMaxSpeed(diffSpeed == 0);
 
 		sprintGraph.reset();
 		boolean skipFirst = true;
@@ -219,7 +210,6 @@ public class SprintActivity extends AbstractSprintActivity {
 			return true;
 		}
 
-
 		int splitTime = msg.arg1;
 		Split split = sprintManager.addSplitTime(splitTime, wheelSize);
 
@@ -229,16 +219,12 @@ public class SprintActivity extends AbstractSprintActivity {
 
 			sprintManager.replaceLast(adjustedSplit);
 
-//			speedometerView.set(-1, adjustedSplit.distance, adjustedSplit.time);
-//			speedometerView.setSpeed(sprintManager.getAverageSpeed(), false);
-//			sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
-//			sprintGraph.renderChart();
-
 			stopSprint();
-		} else {
-			speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
-//			sprintGraph.addSplit(sprintManager.getDistance(), sprintManager.getSpeed());
+
+			return true;
 		}
+
+		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
 
 		return true;
 	}

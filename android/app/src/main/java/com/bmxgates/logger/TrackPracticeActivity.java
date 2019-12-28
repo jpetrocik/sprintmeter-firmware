@@ -100,23 +100,14 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 			@Override
 			public boolean swipeLeft() {
-				sprintIndex++;
-				if (sprintManager.totalSprints() > sprintIndex) {
-					loadSprint(sprintIndex);
-				} else {
-					sprintIndex--;
-				}
+				loadSprint(++sprintIndex);
 
 				return true;
 			}
 
 			@Override
 			public boolean swipeRight() {
-				if (sprintIndex > 0) {
-					sprintIndex--;
-					loadSprint(sprintIndex);
-				}
-
+				loadSprint(--sprintIndex);
 				return true;
 			}
 
@@ -150,14 +141,34 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	}
 
 	protected void loadSprint(int index) {
+		if (sprintManager.totalSprints() == 0)
+			return;
+
+		sprintIndex = index;
+
+
+		if (sprintIndex < 0) {
+			sprintIndex = 0;
+		}
+
+		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
+		if (sprintManager.totalSprints() <= sprintIndex) {
+			sprintIndex = sprintManager.totalSprints() - 1;
+		}
 
 		Sprint sprint = sprintManager.get(index);
+		sprintCountView.setText("Sprint #" + index+1);
+
+		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-		sprintCountView.setText("Sprint #" + index+1);
-		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
+		double bestTime = sprintManager.bestTime();
+		speedometerView.setBestTime(bestTime >= sprint.getTime());
+
+		double maxSpeed = sprintManager.bestSpeed();
+		speedometerView.setBestMaxSpeed(maxSpeed <= sprint.getMaxSpeed());
 
 		sprintArrayAdatper.clear();
 		int nextMark = 0;
@@ -232,16 +243,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 	protected void stopSprint() {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
-		double bestTime = sprintManager.bestTime();
-		if (bestTime >= sprintManager.getTime()) {
-			speedometerView.setBestTime(true);
-		}
-
-		double maxSpeed = sprintManager.bestSpeed();
-		if (maxSpeed <= sprintManager.getMaxSpeed()) {
-			speedometerView.setBestMaxSpeed(true);
-		}
-
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");
 		speedometerView.setSpeed(-1);
@@ -249,6 +250,8 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 		validateCurrentSprint();
 
 		sprintManager.stop();
+
+		loadSprint(sprintManager.totalSprints()-1);
 	}
 
 	protected void validateCurrentSprint(){
@@ -374,9 +377,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 			goButton.setText("Stop");
 
-			//the bike has moved an unknown distance, so start the sprint with a half the
-			// distance of the wheel movement between splits
-			sprintManager.addSplitTime(0, wheelSize/2);
+			sprintManager.addSplitTime(0, 1);
 
 			return true;
 		}
@@ -393,12 +394,12 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 			Split bestSplit = sprintManager.bestSplit(track.autoStop);
 			sprintArrayAdatper.add(split, bestSplit);
 
-			speedometerView.set(-1, split.distance, split.time);
-
 			stopSprint();
 
-			// record splits at marked distances
-		} else if (nextMark < marks.length && sprintManager.getDistance() >= marks[nextMark]) {
+			return true;
+		}
+
+		if (nextMark < marks.length && sprintManager.getDistance() >= marks[nextMark]) {
 			Split split = sprintManager.calculateApproximateSplit(marks[nextMark]);
 			Split bestSplit = sprintManager.bestSplit(marks[nextMark]);
 			sprintArrayAdatper.add(split, bestSplit);
