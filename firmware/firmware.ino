@@ -24,7 +24,8 @@
 #define BT_ENABLE 7
 #define RED_LED  A0
 
-#define SLEEP 300000000L
+#define SLEEP 180000000L
+//#define SLEEP 15000000L
 #define DATA_BUFFER 1500 //about 1000' of buffered data
 
 unsigned long previousTriggerTime = 0;
@@ -35,7 +36,7 @@ volatile int error = false;
 
 void tick();
 
-Ticker ledTicker(tick, 500);
+Ticker ledTicker(tick, 250);
 
 void setup() {
   Serial.begin(115200);
@@ -130,13 +131,16 @@ void loop() {
     ADCSRA = 0;
 
     set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    noInterrupts();
     sleep_enable();
 
     //setup new interrupt, wake_isr()
-    noInterrupts();
-
     attachInterrupt(1, wake_isr, HIGH);
 
+    // turn off brown-out enable in software
+    MCUCR = bit (BODS) | bit (BODSE);
+    MCUCR = bit (BODS); 
+  
     interrupts();
     sleep_cpu();
   }
