@@ -34,8 +34,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	int nextMark = 0;
 
-	int sprintIndex = 0;
-
 	Track track;
 
 	TextView sprintCountView;
@@ -101,7 +99,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 			@Override
 			public boolean swipeLeft() {
 				loadSprint(++sprintIndex);
-
 				return true;
 			}
 
@@ -140,24 +137,8 @@ public class TrackPracticeActivity extends AbstractSprintActivity implements Loc
 
 	}
 
-	protected void loadSprint(int index) {
-		if (sprintManager.totalSprints() == 0)
-			return;
-
-		sprintIndex = index;
-
-
-		if (sprintIndex < 0) {
-			sprintIndex = 0;
-		}
-
-		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
-		if (sprintManager.totalSprints() <= sprintIndex) {
-			sprintIndex = sprintManager.totalSprints() - 1;
-		}
-
-		Sprint sprint = sprintManager.get(index);
-		sprintCountView.setText("Sprint #" + index+1);
+	protected void renderSprint(Sprint sprint) {
+		sprintCountView.setText("Sprint #" + sprintIndex+1);
 
 		displayLocation(TrackLocator.byTrackId(sprint.getTrackId()));
 

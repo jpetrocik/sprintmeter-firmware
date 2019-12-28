@@ -15,7 +15,7 @@ import com.bmxgates.ui.SwipeListener;
 
 public class SprintActivity extends AbstractSprintActivity {
 
-	long runup;
+	long runUp;
 
 	long sprintDistance;
 
@@ -34,8 +34,6 @@ public class SprintActivity extends AbstractSprintActivity {
 	SprintGraphFragment sprintGraph;
 
 	SpeedometerFragment speedometerView;
-
-	int sprintIndex;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,21 +88,19 @@ public class SprintActivity extends AbstractSprintActivity {
 			@Override
 			public boolean swipeLeft() {
 				loadSprint(--sprintIndex);
-
 				return true;
 			}
 
 			@Override
 			public boolean swipeRight() {
 				loadSprint(++sprintIndex);
-
 				return true;
 			}
 
 		}));
 
 		//load settings
-		runup = SettingsActivity.getRunupDistance(this);
+		runUp = SettingsActivity.getRunupDistance(this);
 		wheelSize = SettingsActivity.getWheelSize(this);
 		sprintDistance = SettingsActivity.getSprintDistance(this);
 
@@ -119,7 +115,7 @@ public class SprintActivity extends AbstractSprintActivity {
 		super.readySprint();
 
 		//load settings
-		runup = SettingsActivity.getRunupDistance(this);
+		runUp = SettingsActivity.getRunupDistance(this);
 		wheelSize = SettingsActivity.getWheelSize(this);
 		sprintDistance = SettingsActivity.getSprintDistance(this);
 
@@ -138,27 +134,12 @@ public class SprintActivity extends AbstractSprintActivity {
 		sprintCountView.setText("Sprint #" + sprintManager.totalSprints());
 
 		speedometerView.reset();
-		speedometerView.setDistance(runup);
+		speedometerView.setDistance(runUp);
 
 		sprintGraph.reset();
 	}
 
-	protected void loadSprint(int index) {
-		if (sprintManager.totalSprints() == 0)
-			return;
-
-		sprintIndex = index;
-
-		if (sprintIndex < 0) {
-			sprintIndex = 0;
-		}
-
-		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
-		if (sprintManager.totalSprints() <= sprintIndex) {
-			sprintIndex = sprintManager.totalSprints() - 1;
-		}
-
-		Sprint sprint = sprintManager.get(sprintIndex);
+	protected void renderSprint(Sprint sprint) {
 		sprintCountView.setText("Sprint #" + (sprintIndex+1));
 
 		speedometerView.set(-1.0, sprint.getDistance(), sprint.getTime());
@@ -194,9 +175,9 @@ public class SprintActivity extends AbstractSprintActivity {
 			speedometerView.setError();
 
 		//ignore all splits until runup is exhausted
-		if (runup > 0) {
-			runup -= wheelSize;
-			speedometerView.setDistance(runup);
+		if (runUp > 0) {
+			runUp -= wheelSize;
+			speedometerView.setDistance(runUp);
 			return true;
 		}
 

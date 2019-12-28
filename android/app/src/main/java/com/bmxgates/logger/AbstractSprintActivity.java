@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bmxgates.logger.data.Sprint;
 import com.bmxgates.logger.data.SprintDatabaseHelper;
 import com.bmxgates.logger.data.SprintManager;
 
@@ -32,7 +33,9 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	 * Indicates a checksum error occurred
 	 */
 	boolean checkSumError = false;
-	
+
+	int sprintIndex = 0;
+
 	Handler serialHandler;
 	
 	BMXSprintApplication application;
@@ -193,6 +196,27 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 
 		prevCheckSum = checkSum;
 	}
+
+	protected void loadSprint(int index){
+		if (sprintManager.totalSprints() == 0)
+			return;
+
+		sprintIndex = index;
+
+		if (sprintIndex < 0) {
+			sprintIndex = 0;
+		}
+
+		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
+		if (sprintManager.totalSprints() <= sprintIndex) {
+			sprintIndex = sprintManager.totalSprints() - 1;
+		}
+
+		Sprint sprint = sprintManager.get(sprintIndex);
+		renderSprint(sprint);
+	}
+
+	protected abstract void renderSprint(Sprint sprint);
 
 	protected abstract void connectionFailed();
 
