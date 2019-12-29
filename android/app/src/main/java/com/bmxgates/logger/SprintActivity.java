@@ -1,7 +1,14 @@
 package com.bmxgates.logger;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +20,7 @@ import com.bmxgates.logger.data.Sprint.Split;
 import com.bmxgates.logger.data.SprintManager;
 import com.bmxgates.ui.SwipeListener;
 
-public class SprintActivity extends AbstractSprintActivity {
+public class SprintActivity extends FragmentActivity {
 
 	long runUp;
 
@@ -35,12 +42,16 @@ public class SprintActivity extends AbstractSprintActivity {
 
 	SpeedometerFragment speedometerView;
 
+	SprintService sprintManager;
+
+	int sprintIndex;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sprint);
 
-		createSprintManager(SprintManager.Type.SPRINT);
+//		createSprintManager(SprintManager.Type.SPRINT);
 
 		speedometerView = (SpeedometerFragment) getSupportFragmentManager().findFragmentById(R.id.sprint_speedometer);
 		speedometerView.show20Time(false);
@@ -65,12 +76,12 @@ public class SprintActivity extends AbstractSprintActivity {
 		});
 
 		//decide which button to show initially
-		if (application.isConnected()) {
-			connectButton.setVisibility(View.GONE);
-		} else {
-			goButton.setVisibility(View.GONE);
-			connectButton.setEnabled(false);
-		}
+//		if (application.isConnected()) {
+//			connectButton.setVisibility(View.GONE);
+//		} else {
+//			goButton.setVisibility(View.GONE);
+//			connectButton.setEnabled(false);
+//		}
 
 		goButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -108,6 +119,27 @@ public class SprintActivity extends AbstractSprintActivity {
 		if (sprintManager.totalSprints() > 0){
 			loadSprint(sprintManager.totalSprints() - 1);
 		}
+
+		startSprintService();
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		Intent intent = new Intent(this, SprintService.class);
+		bindService(intent, connection, Context.BIND_AUTO_CREATE);
+	}
+
+	private void startSprintService() {
+		Intent serviceIntent = new Intent(this, SprintService.class);
+		startService(serviceIntent);
+	}
+
+	private void stopSprintService() {
+		Intent serviceIntent = new Intent(this, SprintService.class);
+		ContextCompat.startForegroundService(this, serviceIntent);
 	}
 
 	@Override
@@ -127,6 +159,22 @@ public class SprintActivity extends AbstractSprintActivity {
 
 		reset();
 	}
+
+	/** Defines callbacks for service binding, passed to bindService() */
+	private ServiceConnection connection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName className,
+									   IBinder service) {
+			// We've bound to LocalService, cast the IBinder and get LocalService instance
+			SprintService.LocalBinder binder = (SprintService.LocalBinder) service;
+			sprintManager = binder.getService();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {
+		}
+	};
 
 	protected void reset() {
 		diffTimeView.setText("0.00");

@@ -1,10 +1,13 @@
 package com.bmxgates.logger;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,7 +16,9 @@ import android.util.Log;
 import com.bmxgates.logger.data.SprintDatabaseHelper;
 
 public class BMXSprintApplication extends Application {
-	public static final String BMX_SPRINT_APPLICATION ="BMXSprintApplication";
+	public static final String BMX_SPRINT_APPLICATION = "BMXSprintApplication";
+
+	public static final String SPRINT_NOTIFICATION_CHANNEL = "SprintChannel";
 
 	private static final int TOTAL_MESSAGE_SIZE = 9;
 	private static final int SPLIT_START_BYTE = 3;
@@ -40,6 +45,21 @@ public class BMXSprintApplication extends Application {
 			}
 		}, "SprintMeter");
 		bluetoothSerial.onResume();
+
+		createNotificationChannel();
+	}
+
+	private void createNotificationChannel() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationChannel notificationChannel = new NotificationChannel(
+					SPRINT_NOTIFICATION_CHANNEL,
+					"Sprint Channel",
+					NotificationManager.IMPORTANCE_DEFAULT
+			);
+
+			NotificationManager notificationManager = getSystemService(NotificationManager.class);
+			notificationManager.createNotificationChannel(notificationChannel);
+		}
 	}
 
 	protected int readBluetoothMessage(int bufferSize, byte[] buffer) {

@@ -8,23 +8,54 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="com.bmxgates" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="info" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7195458-e540-407a-a919-a087b5396d41" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/commons/MathUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger" afterDir="true" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestMath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestSerial.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="true" afterPath="$PROJECT_DIR$" afterDir="true" />
-      <change beforePath="$PROJECT_DIR$/BMXLogger.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BMXLogger.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app" beforeDir="true" afterPath="$PROJECT_DIR$/app" afterDir="true" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/Formater.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/Formater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android" beforeDir="true" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android" afterDir="true" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app" beforeDir="true" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app" afterDir="true" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/commons/DownloadMarketingMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/commons/DownloadMarketingMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/Formater.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/Formater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SettingsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SettingsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SplitAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SplitAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackDetailFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackDetailFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackLocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackLocator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/Sprint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/Sprint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/ui/SwipeListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/ui/SwipeListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_sprint.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_sprint.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_practice.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_practice.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_speedometer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_speedometer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_track_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_track_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/sprint_view_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/sprint_view_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/menu/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/menu/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprintmeter-firmware/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../sprintmeter-firmware/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <ignored path="BMXLogger.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -40,7 +71,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="7_WSVGA_Tablet_API_25" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_4_API_22" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -57,82 +88,341 @@
     <favorites_list name="BMXLogger" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="257" column="20" lean-forward="true" selection-start-line="221" selection-end-line="257" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/content/ContextWrapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="173">
+              <caret line="695" column="19" selection-start-line="695" selection-start-column="19" selection-end-line="695" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="238" column="18" selection-start-line="238" selection-start-column="18" selection-end-line="238" selection-end-column="18" />
+              <folding>
+                <element signature="e#4944#4945#0" expanded="true" />
+                <element signature="e#4986#4987#0" expanded="true" />
+                <element signature="e#6287#6288#0" expanded="true" />
+                <element signature="e#6321#6322#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="81" column="19" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#918#1140#0" expanded="true" />
+                <element signature="e#1139#1140#0" expanded="true" />
+                <element signature="e#1844#1845#0" expanded="true" />
+                <element signature="e#1882#1883#0" expanded="true" />
+                <element signature="e#442#443#0" expanded="true" />
+                <element signature="e#466#467#0" expanded="true" />
+                <element signature="e#1890#1891#0" expanded="true" />
+                <element signature="e#1909#1910#0" expanded="true" />
+                <element signature="e#1951#1952#0" expanded="true" />
+                <element signature="e#1970#1971#0" expanded="true" />
+                <element signature="e#2012#2013#0" expanded="true" />
+                <element signature="e#2031#2032#0" expanded="true" />
+                <element signature="e#2073#2074#0" expanded="true" />
+                <element signature="e#2092#2093#0" expanded="true" />
+                <element signature="e#2169#2170#0" expanded="true" />
+                <element signature="e#2176#2177#0" expanded="true" />
+                <element signature="e#2436#2437#0" expanded="true" />
+                <element signature="e#2455#2456#0" expanded="true" />
+                <element signature="e#1138#1139#0" expanded="true" />
+                <element signature="e#1158#1159#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SettingsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/os/IBinder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="227">
+              <caret line="87" column="17" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/app/Service.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="495" column="28" selection-start-line="495" selection-start-column="28" selection-end-line="495" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="446">
+              <caret line="106" selection-start-line="90" selection-end-line="106" />
+              <folding>
+                <element signature="e#2166#2167#0" expanded="true" />
+                <element signature="e#2204#2205#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3251#3252#0" expanded="true" />
+                <element signature="e#3348#3349#0" expanded="true" />
+                <element signature="e#3420#3421#0" expanded="true" />
+                <element signature="e#4190#4191#0" expanded="true" />
+                <element signature="e#4225#4226#0" expanded="true" />
+                <element signature="e#4256#4257#0" expanded="true" />
+                <element signature="e#4289#4290#0" expanded="true" />
+                <element signature="e#4319#4320#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>RECON</find>
-      <find>serialHandler</find>
       <find>RECONN</find>
+      <find>return null</find>
+      <find>createSprintManager</find>
+      <find>sprintArrayAdatper</find>
+      <find>Sprint mode</find>
+      <find>readySprint</find>
+      <find>loadSprint</find>
+      <find>sprintCountView</find>
+      <find>sprintIndex</find>
+      <find>sprintManager</find>
+      <find>smoothAvg</find>
+      <find>speedometerView</find>
+      <find>getBluetoothService</find>
+      <find>runUp</find>
+      <find>SprintManager</find>
+      <find>serialHandler</find>
     </findStrings>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="$USER_HOME$/.android/psoft.keystore" />
+    <option name="KEY_ALIAS" value="personal" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/Formater.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/sprint_view_item.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_speedometer.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SplitAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/ui/SwipeListener.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/commons/DownloadMarketingMessage.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackLocator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/commons/MathUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/data/Sprint.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sprint.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_track_practice.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/data/SprintManager.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/Formater.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SettingsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SprintActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestSerial.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_speedometer.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/sprint_view_item.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SplitAdapter.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/build.gradle" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestMath.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/Formater.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_practice.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_track_detail.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackDetailFragment.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_sprint.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/Sprint.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintManager.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintActivity.java" />
+        <option value="$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintService.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="73" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="22" />
+    <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="977" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
             <path>
-              <item name="BMXLogger" type="1abcf292:AndroidViewProjectNode" />
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
             </path>
             <path>
-              <item name="BMXLogger" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="BMXLogger" type="1abcf292:AndroidViewProjectNode" />
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="bmxgates" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
             <path>
-              <item name="BMXLogger" type="1abcf292:AndroidViewProjectNode" />
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="bmxgates" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="commons" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="BMXLogger" type="1abcf292:AndroidViewProjectNode" />
-              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="bmxgates" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="bmxgates" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="android" type="b2602c69:ProjectViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DEBUGGABLE_DEVICE" value="motorola-moto_g_6_-ZY322QHZ6K" />
     <property name="DEBUGGABLE_PROCESS" value="com.bmxgates.logger" />
     <property name="DEBUGGER_ID" value="Auto" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="ZY322QHZ6K" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-12-11T06:04:01.638Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Nexus_4_API_22" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2019-12-18T06:01:48.883Z" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
+    <property name="ExportApk.BuildVariants" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
     <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -157,7 +447,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -184,6 +474,72 @@
     </configuration>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+    </configuration>
+    <configuration name="TestMath" type="AndroidJUnit" factoryName="Android JUnit" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bmxgates.logger.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bmxgates.logger" />
+      <option name="MAIN_CLASS_NAME" value="com.bmxgates.logger.TestMath" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSerial" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bmxgates.logger.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bmxgates.logger" />
+      <option name="MAIN_CLASS_NAME" value="com.bmxgates.logger.TestSerial" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSerial.testReadMessage" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bmxgates.logger.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bmxgates.logger" />
+      <option name="MAIN_CLASS_NAME" value="com.bmxgates.logger.TestSerial" />
+      <option name="METHOD_NAME" value="testReadMessage" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSerial.testValidCheckSum" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <module name="app" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.bmxgates.logger.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.bmxgates.logger" />
+      <option name="MAIN_CLASS_NAME" value="com.bmxgates.logger.TestSerial" />
+      <option name="METHOD_NAME" value="testValidCheckSum" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
@@ -266,6 +622,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Android JUnit.TestSerial.testReadMessage" />
+        <item itemvalue="Android JUnit.TestSerial" />
+        <item itemvalue="Android JUnit.TestSerial.testValidCheckSum" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration" cleanupOnStartRun="true">
     <configuration>$USER_HOME$/.subversion</configuration>
@@ -279,8 +642,12 @@
           <option name="myCopyRoot" value="$PROJECT_DIR$" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="$PROJECT_DIR$/app" />
-          <option name="myCopyRoot" value="$PROJECT_DIR$/app" />
+          <option name="myVcsRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android/app" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android/app" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -289,6 +656,10 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="$PROJECT_DIR$" />
           <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/../sprintmeter-firmware/android" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -303,11 +674,44 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="TestSerial - 2019.12.20 at 18h 26m 13s.xml">
+      <configuration name="TestSerial" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 26m 57s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 28m 43s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 33m 52s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 34m 08s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 34m 25s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 35m 20s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestSerial_testReadMessage - 2019.12.20 at 19h 53m 42s.xml">
+      <configuration name="TestSerial.testReadMessage" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestMath - 2019.12.21 at 00h 42m 06s.xml">
+      <configuration name="TestMath" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="TestMath - 2019.12.21 at 01h 20m 44s.xml">
+      <configuration name="TestMath" configurationId="AndroidJUnit" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
+    <frame x="22" y="23" width="1680" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21611722" />
-      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Structure" order="1" weight="0.24969475" />
       <window_info id="Captures" order="2" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="3" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -315,26 +719,26 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Nl-Palette" order="8" />
-      <window_info id="Resources Explorer" order="9" />
+      <window_info id="Resources Explorer" order="9" weight="0.32967034" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32991204" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32991204" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39802632" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4993895" weight="0.32894737" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32894737" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4969475" weight="0.27192983" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Gradle Console" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Android Monitor" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50183153" side_tool="true" weight="0.4890351" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info anchor="bottom" id="Messages" order="12" />
-      <window_info anchor="bottom" id="Build" order="13" visible="true" weight="0.32894737" />
-      <window_info anchor="bottom" id="Android Profiler" order="14" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Logcat" order="15" weight="0.24671052" />
+      <window_info anchor="bottom" id="Build" order="13" weight="0.32894737" />
+      <window_info anchor="bottom" id="Android Profiler" order="14" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4981685" visible="true" weight="0.375" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24969475" />
       <window_info anchor="right" id="Properties" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="Android Model" order="5" side_tool="true" />
@@ -344,6 +748,45 @@
       <window_info anchor="right" id="Preview" order="9" />
       <window_info anchor="right" id="Device File Explorer" order="10" side_tool="true" />
     </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.21611722" />
+      <window_info active="true" id="Structure" order="1" visible="true" weight="0.24969475" />
+      <window_info id="Captures" order="2" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="3" />
+      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info id="Nl-Palette" order="8" />
+      <window_info id="Resources Explorer" order="9" weight="0.32967034" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4993895" weight="0.32894737" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32894737" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4969475" weight="0.3991228" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Gradle Console" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Android Monitor" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50183153" side_tool="true" weight="0.4890351" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" />
+      <window_info anchor="bottom" id="Messages" order="12" />
+      <window_info anchor="bottom" id="Build" order="13" visible="true" weight="0.32894737" />
+      <window_info anchor="bottom" id="Android Profiler" order="14" />
+      <window_info anchor="bottom" id="Logcat" order="15" sideWeight="0.4981685" weight="0.375" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24969475" />
+      <window_info anchor="right" id="Properties" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Android Model" order="5" side_tool="true" />
+      <window_info anchor="right" id="Gradle" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Preview" order="9" />
+      <window_info anchor="right" id="Device File Explorer" order="10" side_tool="true" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -354,6 +797,52 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java</url>
+          <line>432</line>
+          <properties />
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java</url>
+          <line>339</line>
+          <properties />
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java</url>
+          <line>167</line>
+          <properties />
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java</url>
+          <line>173</line>
+          <properties />
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestSerial.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestSerial.java</url>
+          <line>87</line>
+          <properties />
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java</url>
+          <line>154</line>
+          <properties />
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
         <watch expression="SPLIT_START_BYTE" />
@@ -365,6 +854,13 @@
     </watches-manager>
   </component>
   <component name="debuggerHistoryManager">
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>nextMark == 4</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
     <expressions id="watch">
       <expression>
         <expression-string>ui(buffer[i+SPLIT_START_BYTE+1])</expression-string>
@@ -373,6 +869,16 @@
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>checkSum % prevCheckSum</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>String.format(&quot;%03d&quot;, millis)</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>ui(buffer[i+SPLIT_START_BYTE+1])</expression-string>
         <language-id>JAVA</language-id>
@@ -391,188 +897,445 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_box_sprint_acivity.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_stop_watch.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_detail.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_list.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289" />
-      </provider>
-      <provider editor-type-id="android-manifest" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/StopWatchActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SplitAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-339">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="10" column="60" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/commons/DownloadMarketingMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-58">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/data/SprintManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="171" column="17" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
+        <state relative-caret-position="102">
+          <caret line="44" column="38" selection-start-line="44" selection-start-column="18" selection-end-line="44" selection-end-column="38" />
           <folding>
-            <element signature="e#608#609#0" expanded="true" />
-            <element signature="e#631#632#0" expanded="true" />
+            <element signature="e#3322#3323#0" expanded="true" />
+            <element signature="e#3344#3345#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/data/Sprint.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="68" column="35" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="35" />
+        <state relative-caret-position="232">
+          <caret line="180" column="25" selection-start-line="180" selection-start-column="25" selection-end-line="180" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1026#1427#0" expanded="true" />
+            <element signature="e#1426#1427#0" expanded="true" />
+            <element signature="e#1477#1699#0" expanded="true" />
+            <element signature="e#1698#1699#0" expanded="true" />
+            <element signature="e#2104#2105#0" expanded="true" />
+            <element signature="e#2142#2143#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/data/SprintDatabaseHelper.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestSerial.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        <state relative-caret-position="-453">
+          <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SettingsActivity.java">
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/os/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1845">
-          <caret line="140" column="25" selection-start-line="140" selection-start-column="25" selection-end-line="140" selection-end-column="25" />
+        <state relative-caret-position="8400">
+          <caret line="601" column="25" selection-start-line="601" selection-start-column="25" selection-end-line="601" selection-end-column="25" />
+          <folding>
+            <element signature="e#25171#25172#0" expanded="true" />
+            <element signature="e#25220#25221#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/commons/MathUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sprint.xml">
+    <entry file="jar://$USER_HOME$/.m2/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/internal/runners/model/ReflectiveCallable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="42" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
+        <state relative-caret-position="195">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="34" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/sprint_view_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
       <provider editor-type-id="android-designer2" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/ui/SwipeListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="22" column="22" selection-start-line="22" selection-start-column="22" selection-end-line="22" selection-end-column="22" />
+        <state relative-caret-position="570">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java">
+    <entry file="jar://$USER_HOME$/.m2/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/Assert.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="61" column="170" selection-start-line="61" selection-start-column="170" selection-end-line="61" selection-end-column="170" />
+        <state relative-caret-position="-13">
+          <caret line="654" column="23" selection-start-line="654" selection-start-column="23" selection-end-line="654" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/26.1.0/8279b00f5194701ff18363fa2958c5a26670b0ef/support-fragment-26.1.0-sources.jar!/android/support/v4/app/Fragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1995">
-          <caret line="154" selection-start-line="154" selection-end-line="154" />
+        <state relative-caret-position="1920">
+          <caret line="190" column="13" selection-start-line="190" selection-start-column="13" selection-end-line="190" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackDetailFragment.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/test/java/com/bmxgates/logger/TestMath.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+        <state relative-caret-position="525">
+          <caret line="36" column="41" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackDetailActivity.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
+          <caret line="12" column="16" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintDatabaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="18" column="128" selection-start-line="18" selection-start-column="116" selection-end-line="18" selection-end-column="128" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_speedometer.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="17" column="37" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="37" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SplitAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="652">
+          <caret line="70" column="40" selection-start-line="70" selection-start-column="40" selection-end-line="70" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/java/lang/Math.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="699" column="23" selection-start-line="699" selection-start-column="23" selection-end-line="699" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../sprintmeter-firmware/android/app/libs/achartengine-1.1.0.jar!/org/achartengine/model/XYSeries.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="78" column="29" selection-start-line="78" selection-start-column="29" selection-end-line="78" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_practice.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BoxSprintAcivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/commons/DownloadMarketingMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_list.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/726289a817ba698659d0e1d51eeb9c60/play-services-maps-12.0.1/jars/classes.jar!/com/google/android/gms/maps/SupportMapFragment.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="155" column="16" selection-start-line="155" selection-start-column="16" selection-end-line="155" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_track_detail.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="43" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="62" column="112" selection-start-line="62" selection-start-column="96" selection-end-line="62" selection-end-column="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/fragment_track_detail.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="19" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackDetailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
           <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SprintActivity.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackLocator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="16" column="10" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        <state relative-caret-position="243">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_track_practice.xml">
-      <provider editor-type-id="text-editor" />
-      <provider selected="true" editor-type-id="android-designer2" />
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/com/android/internal/os/RuntimeInit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="495" selection-start-line="495" selection-end-line="495" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java">
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/os/Looper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="218" selection-start-line="218" selection-end-line="218" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/os/MessageQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-606" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/res/layout/activity_sprint.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="53">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="116" selection-start-line="116" selection-end-line="116" />
+          <folding>
+            <element signature="e#578#579#0" expanded="true" />
+            <element signature="e#619#620#0" expanded="true" />
+            <element signature="e#2111#2112#0" expanded="true" />
+            <element signature="e#2139#2140#0" expanded="true" />
+            <element signature="e#2962#2963#0" expanded="true" />
+            <element signature="e#3003#3004#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/Sprint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="109" selection-start-line="109" selection-end-line="109" />
+          <folding>
+            <element signature="e#444#445#0" expanded="true" />
+            <element signature="e#475#476#0" expanded="true" />
+            <element signature="e#2266#2267#0" expanded="true" />
+            <element signature="e#2298#2299#0" expanded="true" />
+            <element signature="e#2320#2321#0" expanded="true" />
+            <element signature="e#2190#2191#0" expanded="true" />
+            <element signature="e#2211#2212#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/Formater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+          <folding>
+            <element signature="e#923#924#0" expanded="true" />
+            <element signature="e#981#982#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintGraphFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/TrackPracticeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
+          <folding>
+            <element signature="e#5505#5506#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BluetoothSerial.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="187" column="32" lean-forward="true" selection-start-line="187" selection-start-column="32" selection-end-line="187" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/app/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="495" column="28" selection-start-line="495" selection-start-column="28" selection-end-line="495" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/BMXSprintApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="60" column="8" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3251#3252#0" expanded="true" />
+            <element signature="e#3348#3349#0" expanded="true" />
+            <element signature="e#3420#3421#0" expanded="true" />
+            <element signature="e#4190#4191#0" expanded="true" />
+            <element signature="e#4225#4226#0" expanded="true" />
+            <element signature="e#4256#4257#0" expanded="true" />
+            <element signature="e#4289#4290#0" expanded="true" />
+            <element signature="e#4319#4320#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="86" column="47" selection-start-line="86" selection-start-column="47" selection-end-line="86" selection-end-column="47" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/os/IBinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="87" column="17" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/content/ContextWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="695" column="19" selection-start-line="695" selection-start-column="19" selection-end-line="695" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/data/SprintManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="238" column="18" selection-start-line="238" selection-start-column="18" selection-end-line="238" selection-end-column="18" />
+          <folding>
+            <element signature="e#4944#4945#0" expanded="true" />
+            <element signature="e#4986#4987#0" expanded="true" />
+            <element signature="e#6287#6288#0" expanded="true" />
+            <element signature="e#6321#6322#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/AbstractSprintActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="106" selection-start-line="90" selection-end-line="106" />
+          <folding>
+            <element signature="e#2166#2167#0" expanded="true" />
+            <element signature="e#2204#2205#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
-          <caret line="243" column="31" selection-start-line="243" selection-start-column="28" selection-end-line="243" selection-end-column="31" />
+          <caret line="257" column="20" lean-forward="true" selection-start-line="221" selection-end-line="257" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/Formater.java">
+    <entry file="file://$PROJECT_DIR$/../sprintmeter-firmware/android/app/src/main/java/com/bmxgates/logger/SprintService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bmxgates/logger/SpeedometerFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="76" column="35" selection-start-line="76" selection-start-column="35" selection-end-line="76" selection-end-column="35" />
+        <state relative-caret-position="242">
+          <caret line="81" column="19" selection-start-line="81" selection-start-column="19" selection-end-line="81" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#918#1140#0" expanded="true" />
+            <element signature="e#1139#1140#0" expanded="true" />
+            <element signature="e#1844#1845#0" expanded="true" />
+            <element signature="e#1882#1883#0" expanded="true" />
+            <element signature="e#442#443#0" expanded="true" />
+            <element signature="e#466#467#0" expanded="true" />
+            <element signature="e#1890#1891#0" expanded="true" />
+            <element signature="e#1909#1910#0" expanded="true" />
+            <element signature="e#1951#1952#0" expanded="true" />
+            <element signature="e#1970#1971#0" expanded="true" />
+            <element signature="e#2012#2013#0" expanded="true" />
+            <element signature="e#2031#2032#0" expanded="true" />
+            <element signature="e#2073#2074#0" expanded="true" />
+            <element signature="e#2092#2093#0" expanded="true" />
+            <element signature="e#2169#2170#0" expanded="true" />
+            <element signature="e#2176#2177#0" expanded="true" />
+            <element signature="e#2436#2437#0" expanded="true" />
+            <element signature="e#2455#2456#0" expanded="true" />
+            <element signature="e#1138#1139#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
