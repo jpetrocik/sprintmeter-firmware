@@ -27,6 +27,16 @@ public class SprintService extends Service {
 
 	BMXSprintApplication application;
 
+	private Handler serialHandler;
+
+	long runUp;
+
+	long sprintDistance;
+
+	int wheelSize;
+
+	private long lastMessageTime;
+
 	private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -36,7 +46,6 @@ public class SprintService extends Service {
 				onDatabaseOpened();
 		}
 	};
-	private Handler serialHandler;
 
 	private void onDatabaseOpened() {
 		if (sprintManager != null)
@@ -115,7 +124,10 @@ public class SprintService extends Service {
 
 		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
 
-		return true;	}
+		return true;
+
+	}
+
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -147,6 +159,11 @@ public class SprintService extends Service {
 
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.notify(1, notification);
+
+		//load settings
+		runUp = SettingsActivity.getRunupDistance(this);
+		wheelSize = SettingsActivity.getWheelSize(this);
+		sprintDistance = SettingsActivity.getSprintDistance(this);
 
 		return index;
 	}
