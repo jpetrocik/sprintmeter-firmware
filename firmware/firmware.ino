@@ -16,8 +16,6 @@
 
 #define SLEEP_ENABLED
 
-#define BOUNCE_DELAY 5
-
 #define STATE A3
 #define KEY A2
 #define WHEEL_SENSOR 3
