@@ -80,7 +80,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
+		Intent serviceIntent = new Intent(this, SprintService.class);
+		stopService(serviceIntent);
+
 	}
 
 	

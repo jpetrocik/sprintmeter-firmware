@@ -28,10 +28,6 @@ public class Sprint {
 		this.trackId = trackId;
 	}
 
-	protected Sprint(long sprintId){
-		this.sprintId = sprintId;
-	}
-
 	public Split addSplitTime(long splitTime, int splitDistance) {
 		distance += splitDistance;
 		time += splitTime;

@@ -147,50 +147,54 @@ public class BluetoothSerial {
 				
 				@Override
 				protected BluetoothDevice doInBackground(Void... params) {
-					while(!isCancelled()){ //need to kill without calling onCancel
+
+					while(!isCancelled()) { //need to kill without calling onCancel
 
 						for (BluetoothDevice device : pairedDevices) {
-							if (device.getName().startsWith(devicePrefix)){
+							if (device.getName().startsWith(devicePrefix)) {
 								Log.i(BluetoothSerial.class.getName(), attemptCounter + ": Attempting connection to " + device.getName());
 
 								try {
-									
+
 									try {
 										// Standard SerialPortService ID
-										UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); 
+										UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 										serialSocket = device.createRfcommSocketToServiceRecord(uuid);
-									} catch (Exception ce){
+									} catch (Exception ce) {
 										serialSocket = connectViaReflection(device);
 									}
-									
+
 									//setup the connect streams
 									serialSocket.connect();
 									serialInputStream = serialSocket.getInputStream();
 									serialOutputStream = serialSocket.getOutputStream();
 
 									connected = true;
-									Log.i(BluetoothSerial.class.getName(),"Connected to " + device.getName());
+									Log.i(BluetoothSerial.class.getName(), "Connected to " + device.getName());
 
 									return device;
 								} catch (Exception e) {
 									serialSocket = null;
-									serialInputStream=null;
-									serialOutputStream=null;
+									serialInputStream = null;
+									serialOutputStream = null;
 									Log.i(BluetoothSerial.class.getName(), "Failed to connect to " + device.getName(), e);
 								}
 							}
 						}
 
-						try {
-							attemptCounter++;
-							if (attemptCounter>MAX_ATTEMPTS)
-								this.cancel(false);
-							else
+						attemptCounter++;
+						if (attemptCounter>MAX_ATTEMPTS)
+							this.cancel(false);
+						else {
+							try {
 								Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							break;
+							} catch (InterruptedException e) {
+								break;
+							}
 						}
+
 					}
+
 
 					Log.i(BluetoothSerial.class.getName(), "Stopping connection attempts");
 					

@@ -5,44 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bmxgates.logger.data.Sprint;
-import com.bmxgates.logger.data.SprintDatabaseHelper;
-import com.bmxgates.logger.data.SprintManager;
 
-public abstract class AbstractSprintActivity extends FragmentActivity  {
-
-	/**
-	 * Checksum is sent with each split from SprintLogger.  Used to ensure
-	 * no data was missed
-	 */
-	int prevCheckSum = -1;
-
-	/**
-	 * The last time a message was received
-	 */
-	long lastMessageTime;
-
-	/**
-	 * Indicates a checksum error occurred
-	 */
-	boolean checkSumError = false;
+public abstract class AbstractSprintActivity<T extends AbstractSprintService> extends FragmentActivity  {
 
 	int sprintIndex = 0;
 
-	Handler serialHandler;
-	
 	BMXSprintApplication application;
 	
-	SprintManager sprintManager;
+	T sprintService;
 
-	private BroadcastReceiver bluetoothStatusReceiver = new BroadcastReceiver() {
+	BroadcastReceiver bluetoothStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
@@ -56,94 +34,59 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		}
 	};
 
-
-	private BroadcastReceiver databaseReceiver = new BroadcastReceiver() {
+	BroadcastReceiver sprintStatusReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 
 			String action = intent.getAction();
-			if (BluetoothSerial.BLUETOOTH_FAILED.equals(action))
-				onDatabaseOpened();
+			if (SprintService.READY_ACTION.equals(action)) {
+				sprintReady(intent);
+			} else if (SprintService.START_ACTION.equals(action)) {
+				sprintStarted(intent);
+			} else if (SprintService.UPDATE_ACTION.equals(action)) {
+				sprintUpdate(intent);
+			} else if (SprintService.STOP_ACTION.equals(action)) {
+				sprintEnded(intent);
+			} else if (SprintService.ERROR_ACTION.equals(action)) {
+				sprintError(intent);
+			}
+
 		}
 	};
-
-	private void onDatabaseOpened() {
-		if (sprintManager != null)
-			sprintManager.setDatabase(application.getDatabase());
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		application = (BMXSprintApplication) getApplication();
-
-		serialHandler = new Handler(new Handler.Callback() {
-	
-			@Override
-			public boolean handleMessage(Message msg) {
-				return doHandleMessage(msg);
-			}
-		});
-		
 	}
 
-	final boolean doHandleMessage(Message msg){
-		lastMessageTime = System.currentTimeMillis();
 
-		/**
-		 * Due to the queuing of message, the stop button may be pressed before
-		 * all the messages have been processed. In that case sprintManager
-		 * isn't expecting any additional splits so ignore them
-		 */
-		if (!sprintManager.isReady()) {
-			return true;
-		}
-
-		validateChecksum(msg);
-
-		return processSplit(msg);
-	}
-
-	protected abstract boolean processSplit(Message msg);
-
-	final protected void createSprintManager(SprintManager.Type type){
-		sprintManager = new SprintManager(type);
-		sprintManager.setDatabase(application.getDatabase());
-
-	}
-	
-	protected void readySprint(){
-		prevCheckSum = -1;
-		checkSumError = false;
-	}
-	
 	@Override
 	protected void onPause() {
 		super.onPause();
 
-		application.setSerialHandler(null);
-
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(bluetoothStatusReceiver);
-		LocalBroadcastManager.getInstance(this).unregisterReceiver(databaseReceiver);
-
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(sprintStatusReceiver);
 	}
+
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		application.setSerialHandler(serialHandler);
 
 		IntentFilter bluetoothFilter = new IntentFilter(BluetoothSerial.BLUETOOTH_CONNECTED);
 		bluetoothFilter.addAction(BluetoothSerial.BLUETOOTH_DISCONNECTED);
 		bluetoothFilter.addAction(BluetoothSerial.BLUETOOTH_FAILED);
 		LocalBroadcastManager.getInstance(this).registerReceiver(bluetoothStatusReceiver, bluetoothFilter);
 
-		IntentFilter databaseFilter = new IntentFilter(SprintDatabaseHelper.DATABASE_OPENED_ACTION);
-		LocalBroadcastManager.getInstance(this).registerReceiver(databaseReceiver, databaseFilter);
-
+		IntentFilter sprintFilter = new IntentFilter(SprintService.START_ACTION);
+		sprintFilter.addAction(SprintService.UPDATE_ACTION);
+		sprintFilter.addAction(SprintService.STOP_ACTION);
+		sprintFilter.addAction(SprintService.READY_ACTION);
+		LocalBroadcastManager.getInstance(this).registerReceiver(sprintStatusReceiver, sprintFilter);
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,6 +94,7 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -177,28 +121,8 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 	}
 
 
-	/*
-	 * validateChecksum ensures we didn't miss a message.
-	 * The validateChecksum + split = checksum
-	 */
-	void validateChecksum(Message msg){
-
-		int checkSum = msg.arg2;
-
-		//checkSum == 0 to prevent devide by errror when rolling over
-		if (prevCheckSum  == -1 || checkSum == 0) {
-			prevCheckSum = checkSum;
-			checkSumError = false;
-			return;
-		}
-
-		checkSumError = ((checkSum % prevCheckSum ) != 1);
-
-		prevCheckSum = checkSum;
-	}
-
-	protected void loadSprint(int index){
-		if (sprintManager.totalSprints() == 0)
+	final protected void loadSprint(int index){
+		if (sprintService.getSprintManager().totalSprints() == 0)
 			return;
 
 		sprintIndex = index;
@@ -208,11 +132,11 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 		}
 
 		// 9 = 9 OR 9 < 10, set sprintIndex to last index (i.e. 8)
-		if (sprintManager.totalSprints() <= sprintIndex) {
-			sprintIndex = sprintManager.totalSprints() - 1;
+		if (sprintService.getSprintManager().totalSprints() <= sprintIndex) {
+			sprintIndex = sprintService.getSprintManager().totalSprints() - 1;
 		}
 
-		Sprint sprint = sprintManager.get(sprintIndex);
+		Sprint sprint = sprintService.getSprintManager().get(sprintIndex);
 		renderSprint(sprint);
 	}
 
@@ -224,5 +148,16 @@ public abstract class AbstractSprintActivity extends FragmentActivity  {
 
 	protected abstract void connectionRestored();
 
+	protected abstract void sprintReady(Intent intent);
+
+	protected abstract void sprintStarted(Intent intent);
+
+	protected abstract void sprintUpdate(Intent intent);
+
+	protected abstract void sprintEnded(Intent intent);
+
+	protected abstract void sprintError(Intent intent);
+
+	protected abstract  void newSprint();
 
 }

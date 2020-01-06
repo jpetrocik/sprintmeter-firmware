@@ -83,19 +83,10 @@ public class SprintManager {
 
 	}
 
-	public int ready(int trackId){
+	public int ready(int trackId) {
 		currentSprint = new Sprint(System.currentTimeMillis(), trackId);
-		sprintHistory.add( currentSprint);
+		sprintHistory.add(currentSprint);
 
-		return sprintHistory.size();
-	}
-
-	public int ready(){
-		if (type == Type.TRACK)
-			throw new IllegalArgumentException("Track practice must have associated track");
-		currentSprint = new Sprint(System.currentTimeMillis());
-		sprintHistory.add( currentSprint);
-		
 		return sprintHistory.size();
 	}
 

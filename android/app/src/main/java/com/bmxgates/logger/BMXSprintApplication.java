@@ -54,7 +54,7 @@ public class BMXSprintApplication extends Application {
 			NotificationChannel notificationChannel = new NotificationChannel(
 					SPRINT_NOTIFICATION_CHANNEL,
 					"Sprint Channel",
-					NotificationManager.IMPORTANCE_DEFAULT
+					NotificationManager.IMPORTANCE_LOW
 			);
 
 			NotificationManager notificationManager = getSystemService(NotificationManager.class);

@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,13 +17,9 @@ import com.bmxgates.logger.data.Sprint.Split;
 import com.bmxgates.logger.data.SprintManager;
 import com.bmxgates.ui.SwipeListener;
 
-public class SprintActivity extends FragmentActivity {
+public class SprintActivity extends AbstractSprintActivity<SprintService> {
 
-	long runUp;
-
-	long sprintDistance;
-
-	int wheelSize;
+	private static final int SPRINT_TRACK_ID = 453342;
 
 	Button goButton;
 
@@ -42,16 +35,10 @@ public class SprintActivity extends FragmentActivity {
 
 	SpeedometerFragment speedometerView;
 
-	SprintService sprintManager;
-
-	int sprintIndex;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sprint);
-
-//		createSprintManager(SprintManager.Type.SPRINT);
 
 		speedometerView = (SpeedometerFragment) getSupportFragmentManager().findFragmentById(R.id.sprint_speedometer);
 		speedometerView.show20Time(false);
@@ -62,35 +49,24 @@ public class SprintActivity extends FragmentActivity {
 		diffSpeedView = (TextView) findViewById(R.id.diff_spd_view);
 		sprintCountView = (TextView) findViewById(R.id.sprint_sprint_count);
 
-		// hide goButton until connection is established
 		goButton = (Button) findViewById(R.id.sprint_go_button);
+		goButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!sprintService.isReady()) {
+					newSprint();
+				} else {
+ 					sprintService.stopSprint();
+				}
+			}
+		});
 
-		// disable button until connected or connection fails
 		connectButton = (Button) findViewById(R.id.sprint_connect_button);
 		connectButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				connectionLost();
 				application.reconnect();
-			}
-		});
-
-		//decide which button to show initially
-//		if (application.isConnected()) {
-//			connectButton.setVisibility(View.GONE);
-//		} else {
-//			goButton.setVisibility(View.GONE);
-//			connectButton.setEnabled(false);
-//		}
-
-		goButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!sprintManager.isReady()) {
-					readySprint();
-				} else {
-					stopSprint();
-				}
 			}
 		});
 
@@ -110,16 +86,6 @@ public class SprintActivity extends FragmentActivity {
 
 		}));
 
-		//load settings
-		runUp = SettingsActivity.getRunupDistance(this);
-		wheelSize = SettingsActivity.getWheelSize(this);
-		sprintDistance = SettingsActivity.getSprintDistance(this);
-
-		//display last sprint
-		if (sprintManager.totalSprints() > 0){
-			loadSprint(sprintManager.totalSprints() - 1);
-		}
-
 		startSprintService();
 
 	}
@@ -128,8 +94,48 @@ public class SprintActivity extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
 
+		//decide which button to show initially
+		if (application.isConnected()) {
+			connectButton.setVisibility(View.GONE);
+			goButton.setVisibility(View.VISIBLE);
+		} else {
+			goButton.setVisibility(View.GONE);
+			connectButton.setVisibility(View.VISIBLE);
+			connectButton.setEnabled(false);
+		}
+
+		//start foreground service
 		Intent intent = new Intent(this, SprintService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
+
+		/**
+		 * When activity resumes update the screen according to the current state of the
+		 * sprint
+		 */
+		if (sprintService != null) {
+			SprintManager.Mode currentState = sprintService.getSprintManager().mode();
+
+			if (currentState == SprintManager.Mode.SPRINTING) {
+				goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
+				goButton.setText("Stop");
+
+			} else {
+				if (currentState == SprintManager.Mode.STOPPED) {
+					goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
+					goButton.setText("Start");
+				}
+
+				if (currentState == SprintManager.Mode.READY) {
+					goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
+					goButton.setText("Waiting...");
+				}
+
+				if (sprintService.getSprintManager().totalSprints() > 0) {
+					loadSprint(sprintService.getSprintManager().totalSprints() - 1);
+				}
+			}
+		}
+
 	}
 
 	private void startSprintService() {
@@ -137,24 +143,12 @@ public class SprintActivity extends FragmentActivity {
 		startService(serviceIntent);
 	}
 
-	private void stopSprintService() {
-		Intent serviceIntent = new Intent(this, SprintService.class);
-		ContextCompat.startForegroundService(this, serviceIntent);
-	}
-
 	@Override
-	protected void readySprint() {
-		super.readySprint();
-
-		//load settings
-		runUp = SettingsActivity.getRunupDistance(this);
-		wheelSize = SettingsActivity.getWheelSize(this);
-		sprintDistance = SettingsActivity.getSprintDistance(this);
-
+	protected void newSprint() {
 		goButton.setText("Waiting....");
 		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
 
-		sprintIndex = sprintManager.ready();
+		sprintIndex = sprintService.readySprint(SPRINT_TRACK_ID);
 		sprintCountView.setText("Sprint #" + sprintIndex);
 
 		reset();
@@ -164,11 +158,16 @@ public class SprintActivity extends FragmentActivity {
 	private ServiceConnection connection = new ServiceConnection() {
 
 		@Override
-		public void onServiceConnected(ComponentName className,
-									   IBinder service) {
+		public void onServiceConnected(ComponentName className, IBinder service) {
 			// We've bound to LocalService, cast the IBinder and get LocalService instance
-			SprintService.LocalBinder binder = (SprintService.LocalBinder) service;
-			sprintManager = binder.getService();
+			LocalBinder<SprintService> binder = (LocalBinder) service;
+			sprintService = binder.getService();
+
+			Log.i(SprintActivity.class.getName(), "Binded to SprintService");
+			if (sprintService.getSprintManager().totalSprints() > 0){
+				loadSprint(sprintService.getSprintManager().totalSprints() - 1);
+			}
+
 		}
 
 		@Override
@@ -179,10 +178,10 @@ public class SprintActivity extends FragmentActivity {
 	protected void reset() {
 		diffTimeView.setText("0.00");
 		diffSpeedView.setText("00.0");
-		sprintCountView.setText("Sprint #" + sprintManager.totalSprints());
+		sprintCountView.setText("Sprint #" + sprintService.getSprintManager().totalSprints());
 
 		speedometerView.reset();
-		speedometerView.setDistance(runUp);
+		speedometerView.setDistance(0);
 
 		sprintGraph.reset();
 	}
@@ -194,12 +193,12 @@ public class SprintActivity extends FragmentActivity {
 		speedometerView.setSpeed(sprint.getAverageSpeed(), false);
 		speedometerView.setMaxSpeed(sprint.getMaxSpeed());
 
-		long diffTime = sprint.getTime() - sprintManager.bestTime();
+		long diffTime = sprint.getTime() - sprintService.getSprintManager().bestTime();
 		diffTimeView.setText(Formater.time(diffTime, false));
 		speedometerView.setBestTime(diffTime == 0);
 		speedometerView.setBestSpeed(diffTime == 0);
 
-		double diffSpeed = sprintManager.bestSpeed() - sprint.getMaxSpeed();
+		double diffSpeed = sprintService.getSprintManager().bestSpeed() - sprint.getMaxSpeed();
 		diffSpeedView.setText(Formater.speed(diffSpeed));
 		speedometerView.setBestMaxSpeed(diffSpeed == 0);
 
@@ -217,68 +216,37 @@ public class SprintActivity extends FragmentActivity {
 
 
 	@Override
-	protected boolean processSplit(Message msg) {
-
-		if (checkSumError)
-			speedometerView.setError();
-
-		//ignore all splits until runup is exhausted
-		if (runUp > 0) {
-			runUp -= wheelSize;
-			speedometerView.setDistance(runUp);
-			return true;
-		}
-
-		//update speedometer view
-		if (sprintManager.getDistance() == 0) {
-			goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
-			goButton.setText("Stop");
-
-			sprintManager.addSplitTime(0, 1);
-
-			return true;
-		}
-
-		int splitTime = msg.arg1;
-		Split split = sprintManager.addSplitTime(splitTime, wheelSize);
-
-		//stop once sprint distance is reached and recalculate stop point
-		if (sprintManager.getDistance() >= sprintDistance) {
-			Split adjustedSplit = sprintManager.calculateApproximateSplit(sprintDistance);
-
-			sprintManager.replaceLast(adjustedSplit);
-
-			stopSprint();
-
-			return true;
-		}
-
-		speedometerView.set(sprintManager.getSpeed(), sprintManager.getDistance(), sprintManager.getTime());
-
-		return true;
+	protected void sprintReady(Intent intent) {
+		speedometerView.setDistance(intent.getLongExtra("runUp", 0l));
 	}
 
-	protected void stopSprint() {
+	@Override
+	protected void sprintUpdate(Intent intent) {
+		speedometerView.set(sprintService.getSprintManager().getSpeed(), sprintService.getSprintManager().getDistance(), sprintService.getSprintManager().getTime());
+	}
+
+	@Override
+	protected void sprintStarted(Intent intent) {
+		goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
+		goButton.setText("Stop");
+	}
+
+
+	protected void sprintEnded(Intent intent) {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
 		goButton.setText("Start");
 
-		validateCurrentSprint();
-
-		sprintManager.stop();
 
 		//displays the last sprint, if not validate displays the last valid
 		//sprint
-		loadSprint(sprintManager.totalSprints()-1);
+		loadSprint(sprintService.getSprintManager().totalSprints()-1);
 	}
 
-	private void validateCurrentSprint() {
-		if (sprintManager.getDistance() < sprintDistance) {
-			sprintManager.setValid(false);
-			reset();
-			return;
-		}
+	@Override
+	protected void sprintError(Intent intent) {
+		speedometerView.setError();
 	}
 
 	/**
