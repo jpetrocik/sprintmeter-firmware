@@ -86,6 +86,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <service android:name=".SprintService"></service>
+        <service android:name=".TrackPracticeService"></service>
     </application>
 
 </manifest>

@@ -40,15 +40,15 @@ public abstract class AbstractSprintActivity<T extends AbstractSprintService> ex
 
 			String action = intent.getAction();
 			if (SprintService.READY_ACTION.equals(action)) {
-				sprintReady(intent);
+				onSprintReady(intent);
 			} else if (SprintService.START_ACTION.equals(action)) {
-				sprintStarted(intent);
+				onSprintStarted(intent);
 			} else if (SprintService.UPDATE_ACTION.equals(action)) {
-				sprintUpdate(intent);
+				onSprintUpdate(intent);
 			} else if (SprintService.STOP_ACTION.equals(action)) {
-				sprintEnded(intent);
+				onSprintEnded(intent);
 			} else if (SprintService.ERROR_ACTION.equals(action)) {
-				sprintError(intent);
+				onSprintError(intent);
 			}
 
 		}
@@ -148,15 +148,15 @@ public abstract class AbstractSprintActivity<T extends AbstractSprintService> ex
 
 	protected abstract void connectionRestored();
 
-	protected abstract void sprintReady(Intent intent);
+	protected abstract void onSprintReady(Intent intent);
 
-	protected abstract void sprintStarted(Intent intent);
+	protected abstract void onSprintStarted(Intent intent);
 
-	protected abstract void sprintUpdate(Intent intent);
+	protected abstract void onSprintUpdate(Intent intent);
 
-	protected abstract void sprintEnded(Intent intent);
+	protected abstract void onSprintEnded(Intent intent);
 
-	protected abstract void sprintError(Intent intent);
+	protected abstract void onSprintError(Intent intent);
 
 	protected abstract  void newSprint();
 

@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,7 +46,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 
 	boolean autoStop;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,7 +81,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 		sprintCountView = (TextView) findViewById(R.id.track_sprint_count);
 
 		sprintArrayAdatper = new SplitAdapter(this);
-		
+
 		sprintView = (ListView) findViewById(R.id.splitsListView);
 		sprintView.setAdapter(sprintArrayAdatper);
 		sprintView.setOnTouchListener(new SwipeListener(this, new SwipeListener.Callback() {
@@ -121,6 +121,13 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 			}
 		});
 
+		startForgroundService();
+	}
+
+
+	private void startForgroundService() {
+			Intent serviceIntent = new Intent(this, TrackPracticeService.class);
+			ContextCompat.startForegroundService(this, serviceIntent);
 	}
 
 	@Override
@@ -138,7 +145,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 		}
 
 		//start foreground service
-		Intent intent = new Intent(this, SprintService.class);
+		Intent intent = new Intent(this, TrackPracticeService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
 		/**
@@ -235,17 +242,6 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 
 		//start sprint manager
 		sprintIndex = sprintService.readySprint(track.trackId);
-
-		//update ui
-		displayLocation(track);
-		goButton.setText("Waiting....");
-		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
-		sprintArrayAdatper.clear();
-		sprintCountView.setText("Sprint #" + sprintIndex);
-
-		reset();
-
-		nextMark = 0;
 	}
 
 	/** Defines callbacks for service binding, passed to bindService() */
@@ -270,24 +266,29 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 		}
 	};
 
-	protected void reset() {
-		speedometerView.reset();
-	}
-
 	@Override
-	protected void sprintReady(Intent intent) {
+	protected void onSprintReady(Intent intent) {
 		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
 		goButton.setText("Waiting...");
+
+		//update ui
+		displayLocation(track);
+		sprintArrayAdatper.clear();
+		sprintCountView.setText("Sprint #" + sprintIndex);
+
+		speedometerView.reset();
+
+		nextMark = 0;
 	}
 
 	@Override
-	protected void sprintStarted(Intent intent) {
+	protected void onSprintStarted(Intent intent) {
 		goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 		goButton.setText("Stop");
 	}
 
 	@Override
-	protected void sprintUpdate(Intent intent) {
+	protected void onSprintUpdate(Intent intent) {
 		SprintManager sprintManager = sprintService.getSprintManager();
 
 		if (nextMark < marks.length) {
@@ -304,7 +305,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 	}
 
 	@Override
-	protected void sprintEnded(Intent intent) {
+	protected void onSprintEnded(Intent intent) {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
 		Sprint.Split split = sprintService.getSprintManager().calculateApproximateSplit(track.autoStop);
@@ -319,7 +320,7 @@ public class TrackPracticeActivity extends AbstractSprintActivity<TrackPracticeS
 	}
 
 	@Override
-	protected void sprintError(Intent intent) {
+	protected void onSprintError(Intent intent) {
 		speedometerView.setError();
 	}
 

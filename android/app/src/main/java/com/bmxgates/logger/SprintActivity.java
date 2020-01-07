@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -86,7 +87,7 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 
 		}));
 
-		startSprintService();
+		startForgroundService();
 
 	}
 
@@ -104,7 +105,7 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 			connectButton.setEnabled(false);
 		}
 
-		//start foreground service
+		//bind to foreground service
 		Intent intent = new Intent(this, SprintService.class);
 		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
@@ -138,20 +139,14 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 
 	}
 
-	private void startSprintService() {
+	private void startForgroundService() {
 		Intent serviceIntent = new Intent(this, SprintService.class);
-		startService(serviceIntent);
+		ContextCompat.startForegroundService(this, serviceIntent);
 	}
 
 	@Override
 	protected void newSprint() {
-		goButton.setText("Waiting....");
-		goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
-
 		sprintIndex = sprintService.readySprint(SPRINT_TRACK_ID);
-		sprintCountView.setText("Sprint #" + sprintIndex);
-
-		reset();
 	}
 
 	/** Defines callbacks for service binding, passed to bindService() */
@@ -174,17 +169,6 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 		public void onServiceDisconnected(ComponentName arg0) {
 		}
 	};
-
-	protected void reset() {
-		diffTimeView.setText("0.00");
-		diffSpeedView.setText("00.0");
-		sprintCountView.setText("Sprint #" + sprintService.getSprintManager().totalSprints());
-
-		speedometerView.reset();
-		speedometerView.setDistance(0);
-
-		sprintGraph.reset();
-	}
 
 	protected void renderSprint(Sprint sprint) {
 		sprintCountView.setText("Sprint #" + (sprintIndex+1));
@@ -216,23 +200,38 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 
 
 	@Override
-	protected void sprintReady(Intent intent) {
+	protected void onSprintReady(Intent intent) {
+		boolean initial = intent.getBooleanExtra("initial", true);
+
+		if (initial) {
+			goButton.setText("Waiting....");
+			goButton.setBackgroundColor(getResources().getColor(R.color.YELLOW_LIGHT));
+			sprintCountView.setText("Sprint #" + sprintIndex);
+
+			diffTimeView.setText("0.00");
+			diffSpeedView.setText("00.0");
+			sprintCountView.setText("Sprint #" + sprintService.getSprintManager().totalSprints());
+
+			speedometerView.reset();
+
+			sprintGraph.reset();
+		}
+
 		speedometerView.setDistance(intent.getLongExtra("runUp", 0l));
 	}
 
 	@Override
-	protected void sprintUpdate(Intent intent) {
-		speedometerView.set(sprintService.getSprintManager().getSpeed(), sprintService.getSprintManager().getDistance(), sprintService.getSprintManager().getTime());
-	}
-
-	@Override
-	protected void sprintStarted(Intent intent) {
+	protected void onSprintStarted(Intent intent) {
 		goButton.setBackgroundColor(getResources().getColor(R.color.RED_LIGHT));
 		goButton.setText("Stop");
 	}
 
+	@Override
+	protected void onSprintUpdate(Intent intent) {
+		speedometerView.set(sprintService.getSprintManager().getSpeed(), sprintService.getSprintManager().getDistance(), sprintService.getSprintManager().getTime());
+	}
 
-	protected void sprintEnded(Intent intent) {
+	protected void onSprintEnded(Intent intent) {
 		Log.i(TrackPracticeActivity.class.getName(), "Sprint mode: STOP");
 
 		goButton.setBackgroundColor(getResources().getColor(R.color.GREEN_LIGHT));
@@ -245,7 +244,7 @@ public class SprintActivity extends AbstractSprintActivity<SprintService> {
 	}
 
 	@Override
-	protected void sprintError(Intent intent) {
+	protected void onSprintError(Intent intent) {
 		speedometerView.setError();
 	}
 

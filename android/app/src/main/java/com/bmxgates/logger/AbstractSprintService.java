@@ -163,6 +163,9 @@ public abstract class AbstractSprintService extends Service {
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.notify(1, notification);
 
+		Intent updateIntent = new Intent(READY_ACTION);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(updateIntent);
+
 		return index;
 	}
 

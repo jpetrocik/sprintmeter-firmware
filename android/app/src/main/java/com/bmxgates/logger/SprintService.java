@@ -25,6 +25,12 @@ public class SprintService extends AbstractSprintService {
 		wheelSize = SettingsActivity.getWheelSize(this);
 		sprintDistance = SettingsActivity.getSprintDistance(this);
 
+		//seding a second time to send runUp distance
+		Intent readyIntent = new Intent(READY_ACTION);
+		readyIntent.putExtra("runUp", runUp);
+		readyIntent.putExtra("initial", false);
+		LocalBroadcastManager.getInstance(this).sendBroadcast(readyIntent);
+
 		return index;
 	}
 
@@ -39,6 +45,7 @@ public class SprintService extends AbstractSprintService {
 
 			Intent runUpIntent = new Intent(READY_ACTION);
 			runUpIntent.putExtra("runUp", runUp);
+			runUpIntent.putExtra("initial", false);
 			LocalBroadcastManager.getInstance(this).sendBroadcast(runUpIntent);
 			return true;
 		}
